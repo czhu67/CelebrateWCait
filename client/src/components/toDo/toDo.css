@@ -1,0 +1,65 @@
+.toDo {
+  text-align: center;
+}
+
+.toDoHeader {
+  display: inline-flex;
+  background-color: lightgrey;
+  padding: 20px;
+  width: 90vw;
+  justify-content: center;
+}
+
+input.inputToDo {
+  width: 65vw;
+  float: left;
+  font-size: 16px;
+}
+
+.countdown {
+  margin-left: 10px;
+}
+
+.dateForm, .budgetForm, .deleteItem, .set {
+  float: right;
+  right: 0;
+}
+
+.deleteItem:hover {
+  color: red;
+}
+
+.set {
+  display: flex;
+}
+
+.edit {
+  margin-left: 5px;
+}
+
+.edit:hover {
+  cursor: default;
+  color: white;
+}
+
+ul.toDo {
+  width: 90vw;
+  margin: auto;
+  list-style-type: none;
+  padding: 20px;
+}
+
+ul.toDo li:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+ul.toDo li:hover {
+  background: #ddd;
+}
+
+li.list {
+  text-align: left;
+  padding: 10px 15px;
+}
+
+/*# sourceMappingURL=toDo.css.map */

@@ -1,0 +1,125 @@
+.budgetHeader {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+}
+
+.noBudget {
+  text-align: center;
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+}
+
+.progressBar {
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+
+.progressBarTop, .progressBarBottom {
+  height: 3vh;
+  left: 8%;
+}
+
+.progressBarBottom {
+  background-color: grey;
+  position: absolute;
+  width: 72%;
+}
+
+.progressBarTop {
+  position: absolute;
+  background-color: lightgrey;
+}
+
+.budgetLabel {
+  float: right;
+  width: 10%;
+  margin-right: 5%;
+}
+
+.budgetNum {
+  margin: 5px;
+}
+
+.vendorSection {
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.vendors {
+  width: 98%;
+}
+
+.vendorTypes {
+  width: 150px;
+  list-style-type: none;
+  padding: 0 0 0 3vw;
+}
+
+.categories {
+  margin-bottom: 10px;
+}
+
+.vendorList {
+  padding: 10px 5px;
+}
+
+.vendorList:hover {
+  color: grey;
+}
+
+.vendorContainer {
+  width: 200px;
+  float: left;
+  padding: 20px;
+  height: 300px;
+}
+
+.vendorCards {
+  position: relative;
+  border: 1px solid black;
+  text-align: center;
+}
+
+.vendorImg {
+  background-image: url("https://preview.redd.it/7qalrjf53th51.png?auto=webp&s=5394748cc864bcb0d0dd4b1809e17a3ef296e437");
+  background-position: center;
+  background-size: cover;
+  align-self: center;
+  max-width: 200px;
+  height: 200px;
+  margin: 15px;
+}
+
+.vendorInfo {
+  text-align: left;
+  padding: 0 15px 15px 15px;
+}
+
+.vendorName {
+  max-width: 180px;
+  font-weight: 600;
+}
+
+.addVendor {
+  position: relative;
+  float: right;
+}
+
+.priceForm {
+  margin-top: 10px;
+  text-align: left;
+  height: 22px;
+}
+
+.addPrice {
+  float: right;
+  max-width: 100px;
+}
+
+/*# sourceMappingURL=budget.css.map */
