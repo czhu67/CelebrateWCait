@@ -8,7 +8,7 @@ import Budget from './components/budget/budget.jsx';
 import Itinerary from './components/itinerary/itinerary.jsx';
 
 const App = () => {
-  const [page, setPage] = useState('itinerary');
+  const [page, setPage] = useState('toDo');
   const [toDo, setToDo] = useState(['Set wedding date', 'Set budget', 'Book wedding venue', 'Get marriage license', 'Book vendors', 'Buy wedding dress']); // need to add to DB
   const [done, setDone] = useState([]); // need to add to DB
   const [weddingDate, setWeddingDate] = useState(undefined);

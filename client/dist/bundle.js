@@ -32835,7 +32835,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var App = function App() {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('itinerary'),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)('toDo'),
     _useState2 = _slicedToArray(_useState, 2),
     page = _useState2[0],
     setPage = _useState2[1];
