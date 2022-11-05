@@ -44,15 +44,15 @@ const Vendors = (props) => {
       {props.vendorList.map((vendor, key) => (
         <div className="vendorContainer" key={key}>
           <div className="vendorCards" key={key}>
-            <div className="vendorImg"></div>
+            <div className="vendorImg" style={{backgroundImage: `url('${vendor.photo}')`}}></div>
             <div className="vendorInfo">
-              <span className="vendorName">{vendor}</span>
-              <button className="addVendor" onClick={() => addVendor(vendor)}>{chosenVendors.includes(vendor) ? '✓' : '+'}</button><br/>
-              {chosenVendors.includes(vendor) || Object.keys(props.costAdded).includes(vendor) ?
-                (props.costAdded[vendor] === undefined ? <div className="priceForm">
+              <span className="vendorName">{vendor.name}</span>
+              <button className="addVendor" onClick={() => addVendor(vendor.name)}>{chosenVendors.includes(vendor.name) ? '✓' : '+'}</button><br/>
+              {chosenVendors.includes(vendor.name) || Object.keys(props.costAdded).includes(vendor.name) ?
+                (props.costAdded[vendor.name] === undefined ? <div className="priceForm">
                   $<input onChange={(e) => setCost(Number(e.target.value) || 0)} placeholder="Price" size="12"/>
-                  <button className="addPrice" onClick={() => addCost(vendor)}>Add</button>
-                </div> : <div className="priceForm">{props.formatter.format(props.costAdded[vendor])}<div className="addPrice" onClick={() => editCost(vendor)}>Edit</div></div>) : null}
+                  <button className="addPrice" onClick={() => addCost(vendor.name)}>Add</button>
+                </div> : <div className="priceForm">{props.formatter.format(props.costAdded[vendor.name])}<div className="addPrice" onClick={() => editCost(vendor.name)}>Edit</div></div>) : null}
             </div>
           </div>
         </div>

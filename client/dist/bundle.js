@@ -29,10 +29,58 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var Budget = function Budget(props) {
   var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({
-      DJ: ['ready', 'set', 'DANCE!', 'boots', 'and', 'cats'],
-      Photography: [1, 2, 3, 'say cheese!'],
-      Videography: [3, 2, 1, 'action!'],
-      Catering: ['McDonald\'s', 'I\'m lovin\' it']
+      DJ: [{
+        name: 'Taylor Swift',
+        photo: "https://media.vanityfair.com/photos/602c3ec3b9f9b86e12a660c0/16:9/w_1280,c_limit/VF1421_Taylor_Swift_Tout.jpg"
+      }, {
+        name: 'DJ Khaled',
+        photo: "https://pbs.twimg.com/profile_images/1129254673209339905/hMI9TU58_400x400.png"
+      }, {
+        name: 'Diplo',
+        photo: "https://media.npr.org/assets/img/2017/11/20/diplo-2016-alexei-hay-2_wide-43e8194133f367cedf750e8114e119c8ce982473.jpg"
+      }, {
+        name: 'Harry Styles',
+        photo: "https://www.rollingstone.com/wp-content/uploads/2019/08/R1331_FEA_Harry_Styles_Fwm.jpg?w=800"
+      }, {
+        name: 'Zed',
+        photo: "https://www.billboard.com/wp-content/uploads/media/zedd-bb19-jdge-2017-feat-billboard-1240.jpg?w=1240"
+      }, {
+        name: 'Calvin Harris',
+        photo: "https://variety.com/wp-content/uploads/2013/08/calvin-harris-top-earning-dj.jpg"
+      }],
+      Photography: [{
+        name: '1',
+        photo: ''
+      }, {
+        name: '2',
+        photo: ''
+      }, {
+        name: '3',
+        photo: ''
+      }, {
+        name: 'say cheese!',
+        photo: ''
+      }],
+      Videography: [{
+        name: '1',
+        photo: ''
+      }, {
+        name: '2',
+        photo: ''
+      }, {
+        name: '3',
+        photo: ''
+      }, {
+        name: 'action!',
+        photo: ''
+      }],
+      Catering: [{
+        name: 'McDonald\'s',
+        photo: "https://i.insider.com/6334125c9ac0610018e7ff1d?width=700"
+      }, {
+        name: 'Shake Shack',
+        photo: 'https://media-cdn.grubhub.com/image/upload/d_search:browse-images:default.jpg/w_300,q_100,fl_lossy,dpr_2.0,c_fit,f_auto,h_300/npp3at7u5pmstkogyelq'
+      }]
     }),
     _useState2 = _slicedToArray(_useState, 1),
     vendors = _useState2[0];
@@ -193,19 +241,22 @@ var Vendors = function Vendors(props) {
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
           className: "vendorCards",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-            className: "vendorImg"
+            className: "vendorImg",
+            style: {
+              backgroundImage: "url('".concat(vendor.photo, "')")
+            }
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
             className: "vendorInfo",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("span", {
               className: "vendorName",
-              children: vendor
+              children: vendor.name
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
               className: "addVendor",
               onClick: function onClick() {
-                return addVendor(vendor);
+                return addVendor(vendor.name);
               },
-              children: chosenVendors.includes(vendor) ? '✓' : '+'
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), chosenVendors.includes(vendor) || Object.keys(props.costAdded).includes(vendor) ? props.costAdded[vendor] === undefined ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
+              children: chosenVendors.includes(vendor.name) ? '✓' : '+'
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("br", {}), chosenVendors.includes(vendor.name) || Object.keys(props.costAdded).includes(vendor.name) ? props.costAdded[vendor.name] === undefined ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
               className: "priceForm",
               children: ["$", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("input", {
                 onChange: function onChange(e) {
@@ -216,16 +267,16 @@ var Vendors = function Vendors(props) {
               }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("button", {
                 className: "addPrice",
                 onClick: function onClick() {
-                  return addCost(vendor);
+                  return addCost(vendor.name);
                 },
                 children: "Add"
               })]
             }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
               className: "priceForm",
-              children: [props.formatter.format(props.costAdded[vendor]), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
+              children: [props.formatter.format(props.costAdded[vendor.name]), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
                 className: "addPrice",
                 onClick: function onClick() {
-                  return editCost(vendor);
+                  return editCost(vendor.name);
                 },
                 children: "Edit"
               })]
@@ -32788,7 +32839,7 @@ var App = function App() {
     _useState2 = _slicedToArray(_useState, 2),
     page = _useState2[0],
     setPage = _useState2[1];
-  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(['Set wedding date', 'Set budget', 'Book wedding venue']),
+  var _useState3 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(['Set wedding date', 'Set budget', 'Book wedding venue', 'Get marriage license', 'Book vendors', 'Buy wedding dress']),
     _useState4 = _slicedToArray(_useState3, 2),
     toDo = _useState4[0],
     setToDo = _useState4[1]; // need to add to DB
@@ -32816,6 +32867,7 @@ var App = function App() {
     _useState16 = _slicedToArray(_useState15, 2),
     stickyNotes = _useState16[0],
     setStickyNotes = _useState16[1]; // need to add to DB
+  // need another DB for the vendors
 
   var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
