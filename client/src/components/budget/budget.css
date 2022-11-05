@@ -25,14 +25,14 @@
 }
 
 .progressBarBottom {
-  background-color: grey;
+  background-color: lightgrey;
   position: absolute;
   width: 72%;
 }
 
 .progressBarTop {
   position: absolute;
-  background-color: lightgrey;
+  background-color: grey;
 }
 
 .budgetLabel {
@@ -87,7 +87,6 @@
 }
 
 .vendorImg {
-  background-image: url("https://preview.redd.it/7qalrjf53th51.png?auto=webp&s=5394748cc864bcb0d0dd4b1809e17a3ef296e437");
   background-position: center;
   background-size: cover;
   align-self: center;

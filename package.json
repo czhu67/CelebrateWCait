@@ -6,7 +6,11 @@
     "server-dev": "npx nodemon --watch server server/index.js",
     "client-dev": "npx webpack --watch",
     "build": "npx webpack",
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "style": "sass --watch client/src/styling/styleSheet.scss client/src/styling/styleSheet.css",
+    "style-budget": "sass --watch client/src/components/budget/budget.scss client/src/components/budget/budget.css",
+    "style-itinerary": "sass --watch client/src/components/itinerary/itinerary.scss client/src/components/itinerary/itinerary.css",
+    "style-toDo": "sass --watch client/src/components/toDo/toDo.scss client/src/components/toDo/toDo.css"
   },
   "license": "Unlicensed",
   "devDependencies": {
