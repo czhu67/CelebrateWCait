@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './toDo.css';
 import Form from './form.jsx';
 import Modal from '../modal.jsx';
+import axios from 'axios';
 
 const ToDo = (props) => {
   // key is days until wedding, value is list that needs to be added to existing list (toDo)
@@ -18,8 +19,15 @@ const ToDo = (props) => {
       let date = new Date();
       let difference = props.weddingDate.getTime() - date.getTime();
       setCountdown(Math.ceil(difference / (1000 * 60 * 60 * 24)));
+      document.getElementById('Set wedding date').style.textDecoration = 'line-through';
     }
   }, [props.weddingDate]);
+
+  useEffect(() => {
+    if (props.budget !== 0) {
+      document.getElementById('Set budget').style.textDecoration = 'line-through';
+    }
+  }, [props.budget]);
 
   var firstLine = (text) => {
     let lineBreak = text.indexOf('\n');
@@ -33,10 +41,10 @@ const ToDo = (props) => {
       let today = new Date();
       if (dateObject > today) {
         props.setWeddingDate(dateObject);
-        e.target.parentElement.parentElement.style.textDecoration = 'line-through';
         let temp = JSON.parse(JSON.stringify(props.done));
         temp.push(firstLine(e.target.parentElement.parentElement.innerText));
         props.setDone(temp);
+        axios.post('/date', {email: props.email, date: dateObject});
       } else {
         props.setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
       }
@@ -51,11 +59,11 @@ const ToDo = (props) => {
     e.preventDefault();
     if (inputBudget > 0 ) {
       let listItem = e.target.parentElement.parentElement;
-      listItem.style.textDecoration = 'line-through';
       let temp = JSON.parse(JSON.stringify(props.done));
       temp.push(firstLine(listItem.innerText));
       props.setDone(temp);
       props.setBudget(inputBudget);
+      axios.post('/budget', {email: props.email, budget: inputBudget});
     } else {
       props.setWarning('Invalid budget amount: amount must be over $0.');
       setInputBudget(0);
@@ -79,15 +87,17 @@ const ToDo = (props) => {
     let settingDate = (e.target.innerText.indexOf('Set wedding date') !== -1)
     let settingBudget = (e.target.innerText.indexOf('Set budget') !== -1);
     let alreadyDone = props.done.includes(firstLine(e.target.innerText));
-    if (noTextDeco && list && !settingDate && !settingBudget && !alreadyDone) {
-      let temp = JSON.parse(JSON.stringify(props.done));
-      let lineBreak = e.target.innerText.indexOf('\n');
-      temp.push(firstLine(e.target.innerText));
-      props.setDone(temp);
-      e.target.style.textDecoration = 'line-through';
-    } else if (e.target.className === 'list') {
-      e.target.style.textDecoration = '';
-      undo(firstLine(e.target.innerText))
+    if (!settingDate && !settingBudget) {
+      if (noTextDeco && list && !alreadyDone) {
+        let temp = JSON.parse(JSON.stringify(props.done));
+        let lineBreak = e.target.innerText.indexOf('\n');
+        temp.push(firstLine(e.target.innerText));
+        props.setDone(temp);
+        e.target.style.textDecoration = 'line-through';
+      } else if (e.target.className === 'list') {
+        e.target.style.textDecoration = '';
+        undo(firstLine(e.target.innerText))
+      }
     }
   }
 
@@ -127,7 +137,7 @@ const ToDo = (props) => {
             linethrough = 'line-through';
           }
           return (
-            <li key={key} onClick={markComplete} style={{textDecoration: linethrough}} className="list">{`${item} `}
+            <li key={key} onClick={markComplete} style={{textDecoration: linethrough}} className="list" id={`${item}`}>{`${item} `}
               {/* if toDo item is "Set wedding date" && no wedding date is set yet, render an input and button */}
               {item === "Set wedding date" ?
                 // if wedding date is already set, render an Edit word that allows the user to reset it

@@ -3,6 +3,14 @@ body, input, button {
   // background-color: pink;
 }
 
+a {
+  text-decoration: underline;
+}
+
+a:hover {
+  color: dimgray;
+}
+
 .header {
   background-color: pink;
   position: absolute;
@@ -10,7 +18,7 @@ body, input, button {
   top: 0;
   right: 0;
   display: grid;
-  grid-template-columns: auto 100px 100px 100px;
+  grid-template-columns: auto 100px 100px 100px 100px;
   padding: 10px;
   height: 60px;
 }
