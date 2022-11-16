@@ -35,12 +35,12 @@ const SignUp = (props) => {
   }
 
   return (
-    <div>
+    <div className="login">
       <h1>Sign Up</h1>
-      {/* <input className="form" onChange={(e) => setfname(e.target.value)} placeholder="First Name"/>
-      <input className="form" onChange={(e) => setlname(e.target.value)} placeholder="Last Name"/> */}
-      <input className="form" onChange={(e) => setemail(e.target.value)} type="email" placeholder="Email"/>
-      <input className="form password" onChange={(e) => setpwd(e.target.value)} type="password" placeholder="Password"/>
+      <input className="form" onChange={(e) => setfname(e.target.value)} placeholder="First Name"/><br/>
+      <input className="form" onChange={(e) => setlname(e.target.value)} placeholder="Last Name"/><br/>
+      <input className="form" onChange={(e) => setemail(e.target.value)} type="email" placeholder="Email"/><br/>
+      <input className="form password" onChange={(e) => setpwd(e.target.value)} type="password" placeholder="Password"/><br/>
       <button onClick={createAccount}>Sign Up</button>
       <p onClick={() => props.setPage('login')}>Existing user? <a>Log In</a></p>
     </div>

@@ -1,0 +1,25 @@
+#titles {
+  display: grid;
+  grid-template-columns: 10% 25% 15%;
+  margin: 20px;
+  justify-content: center;
+}
+#titles div.time {
+  border-left: none;
+  text-align: center;
+}
+#titles .cell {
+  padding: 5px 10px;
+  border-left: 1px solid lightgrey;
+  border-bottom: 1px solid lightgrey;
+}
+#titles .title {
+  text-align: center;
+  padding: 5px 10px;
+  border-bottom: 2px solid black;
+}
+#titles div.lastRow {
+  border-bottom: none;
+}
+
+/*# sourceMappingURL=timeline.css.map */

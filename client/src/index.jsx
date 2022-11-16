@@ -6,7 +6,7 @@ import Login from './components/login.jsx';
 import SignUp from './components/signup.jsx';
 import ToDo from './components/toDo/toDo.jsx';
 import Budget from './components/budget/budget.jsx';
-import Itinerary from './components/itinerary/itinerary.jsx';
+import Timeline from './components/timeline/timeline.jsx';
 
 const App = () => {
   const [page, setPage] = useState('login');
@@ -16,9 +16,9 @@ const App = () => {
   const [done, setDone] = useState([]); // in the DB
   const [weddingDate, setWeddingDate] = useState(undefined);
   const [budget, setBudget] = useState(0); // in the DB
-  const [costAdded, setCostAdded] = useState({}); // need to add to DB
+  const [costAdded, setCostAdded] = useState({}); // in the DB
   const [warning, setWarning] = useState('');
-  const [stickyNotes, setStickyNotes] = useState([]); // need to add to DB
+  const [itinerary, setItinerary] = useState({}); // need to add to DB
   // need another DB system for the vendors eventually (planner-side)
 
   useEffect(() => {
@@ -60,13 +60,13 @@ const App = () => {
             <div className="title">Celebrate With Cait | Getting You To "I Do"</div>
             <div className="nav" onClick={() => setPage("toDo")}>To Do</div>
             <div className="nav" onClick={() => setPage("budget")}>Budget</div>
-            <div className="nav" onClick={() => setPage("itinerary")}>Itinerary</div>
+            <div className="nav" onClick={() => setPage("timeline")}>Timeline</div>
             <div className="nav" onClick={logOut}>Log Out</div>
           </div>
           {page === "toDo" ? <ToDo email={email} budget={budget} setBudget={setBudget} formatter={formatter} warning={warning} setWarning={setWarning} done={done} setDone={setDone} toDo={toDo} setToDo={setToDo} weddingDate={weddingDate} setWeddingDate={setWeddingDate}/> : null}
           {page === "budget" ? <Budget setPage={setPage} budget={budget} costAdded={costAdded} setCostAdded={setCostAdded} formatter={formatter}/> : null}
-          {page === "itinerary" ? <Itinerary stickyNotes={stickyNotes} setStickyNotes={setStickyNotes}/> : null}
-        </div>) : <div id="authentication">{page === "login" ? <Login setPage={setPage} setLogIn={setLogIn} setEmail={setEmail} setBudget={setBudget} setWeddingDate={setWeddingDate} setToDo={setToDo} setCostAdded={setCostAdded}/> : <SignUp setPage={setPage} setLogIn={setLogIn} setEmail={setEmail}/>}</div>}
+          {page === "timeline" ? <Timeline itinerary={itinerary} setItinerary={setItinerary}/> : null}
+        </div>) : <div id="authentication">{page === "login" ? (<Login setPage={setPage} setLogIn={setLogIn} setEmail={setEmail} setBudget={setBudget} setWeddingDate={setWeddingDate} setToDo={setToDo} setCostAdded={setCostAdded} setDone={setDone}/>) : <SignUp setPage={setPage} setLogIn={setLogIn} setEmail={setEmail}/>}</div>}
     </div>
   );
 };

@@ -16,7 +16,6 @@ app.use(express.urlencoded({ extended: true }));
 // ROUTES
 app.post('/signup', (req, res) => {
   Users.find({_id: req.body.email}).then((data) => {
-    console.log(data);
     if (data.length === 0) {
       let salt = crypto.randomBytes(16);
       argon2.hash(req.body.pwd, {salt}).then((hashed) => {
@@ -49,7 +48,7 @@ app.post('/update', (req, res) => {
   input[req.body.update] = req.body.data;
   Users.updateMany({_id: req.body.email}, input)
   .then((data) => res.send(data))
-  .catch((err) => console.log(err));
+  .catch((err) => res.send(err));
 })
 
 let port = process.env.PORT || 3000;

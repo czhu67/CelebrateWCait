@@ -2344,143 +2344,6 @@ var Vendors = function Vendors(props) {
 
 /***/ }),
 
-/***/ "./client/src/components/itinerary/itinerary.jsx":
-/*!*******************************************************!*\
-  !*** ./client/src/components/itinerary/itinerary.jsx ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _itinerary_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./itinerary.css */ "./client/src/components/itinerary/itinerary.css");
-/* harmony import */ var _stickyBoard_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stickyBoard.jsx */ "./client/src/components/itinerary/stickyBoard.jsx");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-
-
-
-
-var Itinerary = function Itinerary(props) {
-  var times = Array.from(Array(13).keys());
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-    className: "itinerary",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
-      className: "titles",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        className: "timeTitle",
-        children: "Time"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-        className: "eventTitle",
-        children: "Event"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("i", {
-        className: "instructions",
-        children: "Double click to add a sticky note"
-      })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "times",
-      children: times.map(function (time, key) {
-        if (time === 0) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "time",
-            children: "12:00 PM"
-          }, key);
-        } else if (time === 12) {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "time",
-            children: "12:00 AM"
-          }, key);
-        } else {
-          return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-            className: "time",
-            children: "".concat(time, ":00 PM")
-          }, key);
-        }
-      })
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      className: "line"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_stickyBoard_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
-      stickyNotes: props.stickyNotes,
-      setStickyNotes: props.setStickyNotes
-    })]
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Itinerary);
-
-/***/ }),
-
-/***/ "./client/src/components/itinerary/stickyBoard.jsx":
-/*!*********************************************************!*\
-  !*** ./client/src/components/itinerary/stickyBoard.jsx ***!
-  \*********************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
-
-
-var StickyBoard = function StickyBoard(props) {
-  // useEffect(() => {
-  //   props.stickyNotes.map((note) => {
-  //     // document.querySelector('.stickyNoteBoard').appendChild(parser.parseFromString(note, 'text/html').body.children[0]);
-  //   })
-  // }, []);
-
-  var parser = new DOMParser();
-  var createSticky = function createSticky(e) {
-    if (e.target.className === 'stickyNoteBoard') {
-      var note = document.createElement('div');
-      note.classList.add('note');
-      note.style.left = "".concat(e.pageX - 315, "px");
-      note.style.top = "".concat(e.pageY - 150, "px");
-      var div = document.createElement('div');
-      note.appendChild(div);
-      // edit the sticky note
-      div.classList.add('stickyNote');
-      div.contentEditable = true;
-      div.innerText = 'Click to edit';
-      div.onfocus = function () {
-        if (div.innerText === 'Click to edit') {
-          div.innerText = '';
-        }
-      };
-      div.onblur = function (e) {
-        if (e.target.innerText === '') {
-          div.innerText = 'Click to edit';
-        }
-      };
-      // delete the sticky note
-      var close = document.createElement('p');
-      close.classList.add('closeButton');
-      close.innerText = '𐄂';
-      close.onclick = function (e) {
-        note.remove();
-      };
-      note.appendChild(close);
-      document.querySelector('.stickyNoteBoard').appendChild(note);
-    }
-  };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("div", {
-    className: "stickyNoteBoard",
-    onDoubleClick: function onDoubleClick(e) {
-      return createSticky(e);
-    }
-  });
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (StickyBoard);
-
-/***/ }),
-
 /***/ "./client/src/components/login.jsx":
 /*!*****************************************!*\
   !*** ./client/src/components/login.jsx ***!
@@ -2535,6 +2398,7 @@ var Login = function Login(props) {
             props.setToDo(data.data.toDos);
           }
           props.setCostAdded(data.data.currentCost);
+          props.setDone(data.data.completedToDos);
         } else {
           console.log(data.data);
         }
@@ -2544,6 +2408,7 @@ var Login = function Login(props) {
     }
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "login",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
       children: "Login"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
@@ -2552,13 +2417,13 @@ var Login = function Login(props) {
       },
       type: "email",
       placeholder: "Email"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
       onChange: function onChange(e) {
         return setpwd(e.target.value);
       },
       type: "password",
       placeholder: "Password"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
       onClick: logIn,
       children: "Log In"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
@@ -2686,23 +2551,36 @@ var SignUp = function SignUp(props) {
     }
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+    className: "login",
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
       children: "Sign Up"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+      className: "form",
+      onChange: function onChange(e) {
+        return setfname(e.target.value);
+      },
+      placeholder: "First Name"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+      className: "form",
+      onChange: function onChange(e) {
+        return setlname(e.target.value);
+      },
+      placeholder: "Last Name"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
       className: "form",
       onChange: function onChange(e) {
         return setemail(e.target.value);
       },
       type: "email",
       placeholder: "Email"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
       className: "form password",
       onChange: function onChange(e) {
         return setpwd(e.target.value);
       },
       type: "password",
       placeholder: "Password"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
       onClick: createAccount,
       children: "Sign Up"
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
@@ -2716,6 +2594,98 @@ var SignUp = function SignUp(props) {
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SignUp);
+
+/***/ }),
+
+/***/ "./client/src/components/timeline/timeline.jsx":
+/*!*****************************************************!*\
+  !*** ./client/src/components/timeline/timeline.jsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _timeline_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./timeline.css */ "./client/src/components/timeline/timeline.css");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+// import StickyBoard from './stickyBoard.jsx';
+
+
+var Timeline = function Timeline(props) {
+  var columns = 3;
+  //    # of hours in timeline ↓
+  var times = Array.from(Array(16 * columns).keys());
+  var startTime = 9; // start time of the day
+
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    className: "itinerary",
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+      id: "titles",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "title time",
+        children: "Time"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "title",
+        children: "Event"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+        className: "title",
+        children: "Notes"
+      }), times.map(function (time, key) {
+        var num = Math.floor(time / columns);
+        if (time % columns === 0) {
+          if (num + startTime > 12) {
+            startTime -= 12;
+          }
+          if (time === times.length - columns) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "time cell lastRow",
+              children: "".concat(num + startTime, ":00")
+            }, key);
+          } else {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "time cell",
+              children: "".concat(num + startTime, ":00")
+            }, key);
+          }
+        } else if (time % columns === 1) {
+          if (time > times.length - columns) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              id: "".concat(num + startTime, "Event"),
+              className: "cell lastRow",
+              contentEditable: "true"
+            }, key);
+          } else {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              id: "".concat(num + startTime, "Event"),
+              className: "cell",
+              contentEditable: "true"
+            }, key);
+          }
+        } else {
+          if (time > times.length - columns) {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "cell lastRow",
+              contentEditable: "true"
+            }, key);
+          } else {
+            return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "cell",
+              contentEditable: "true"
+            }, key);
+          }
+        }
+      })]
+    })
+  });
+};
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Timeline);
 
 /***/ }),
 
@@ -3053,10 +3023,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".budgetHeader {\n  display: inline-fle
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./client/src/components/itinerary/itinerary.css":
-/*!*********************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./client/src/components/itinerary/itinerary.css ***!
-  \*********************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./client/src/components/timeline/timeline.css":
+/*!*******************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./client/src/components/timeline/timeline.css ***!
+  \*******************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3073,7 +3043,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".titles {\n  display: flex;\n  margin: 20px 0 30px 0;\n}\n\n.timeTitle {\n  width: 15%;\n  text-align: right;\n  margin-right: 15%;\n}\n\n.instructions {\n  color: grey;\n  margin: 0 10px 0 auto;\n}\n\n.times {\n  width: 18%;\n  text-align: right;\n}\n\n.time {\n  opacity: 20%;\n  padding: 6.6666666667vh 0;\n  transition: transform 0.5s;\n}\n\n.time:hover {\n  opacity: 1;\n  transform: scale(1.1) translate(-20px);\n}\n\n.line {\n  position: absolute;\n  top: 160px;\n  margin-left: 20%;\n  border-left: 3px solid black;\n  height: 220vh;\n}\n\n.stickyNoteBoard {\n  position: absolute;\n  top: 160px;\n  right: 0;\n  left: 22%;\n  width: auto;\n  height: 220vh;\n}\n\n.note {\n  position: absolute;\n  background-color: pink;\n  padding-top: 15px;\n  height: 150px;\n  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);\n}\n\n.stickyNote {\n  font-size: 16px;\n  padding-bottom: 20px;\n  width: 150px;\n  height: 95%;\n  padding: 0 10px 10px 10px;\n  text-align: center;\n}\n\n.closeButton {\n  position: absolute;\n  margin: 0;\n  top: -3px;\n  right: 5px;\n  color: grey;\n  cursor: pointer;\n}\n\n/*# sourceMappingURL=itinerary.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/components/itinerary/itinerary.scss","webpack://./client/src/components/itinerary/itinerary.css"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,qBAAA;ACCF;;ADEA;EACE,UAAA;EACA,iBAAA;EACA,iBAAA;ACCF;;ADEA;EACE,WAAA;EACA,qBAAA;ACCF;;ADEA;EACE,UAAA;EACA,iBAAA;ACCF;;ADEA;EACE,YAAA;EACA,yBAAA;EACA,0BAAA;ACCF;;ADEA;EACE,UAAA;EACA,sCAAA;ACCF;;ADEA;EACE,kBAAA;EACA,UAAA;EACA,gBAAA;EACA,4BAAA;EACA,aAAA;ACCF;;ADEA;EACE,kBAAA;EACA,UAAA;EACA,QAAA;EACA,SAAA;EACA,WAAA;EACA,aAAA;ACCF;;ADEA;EACE,kBAAA;EACA,sBAAA;EACA,iBAAA;EACA,aAAA;EACA,6CAAA;ACCF;;ADEA;EACE,eAAA;EACA,oBAAA;EACA,YAAA;EACA,WAAA;EACA,yBAAA;EACA,kBAAA;ACCF;;ADEA;EACE,kBAAA;EACA,SAAA;EACA,SAAA;EACA,UAAA;EACA,WAAA;EACA,eAAA;ACCF;;AAEA,wCAAwC","sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "#titles {\n  display: grid;\n  grid-template-columns: 10% 25% 15%;\n  margin: 20px;\n  justify-content: center;\n}\n#titles div.time {\n  border-left: none;\n  text-align: center;\n}\n#titles .cell {\n  padding: 5px 10px;\n  border-left: 1px solid lightgrey;\n  border-bottom: 1px solid lightgrey;\n}\n#titles .title {\n  text-align: center;\n  padding: 5px 10px;\n  border-bottom: 2px solid black;\n}\n#titles div.lastRow {\n  border-bottom: none;\n}\n\n/*# sourceMappingURL=timeline.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/components/timeline/timeline.scss","webpack://./client/src/components/timeline/timeline.css"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,kCAAA;EACA,YAAA;EACA,uBAAA;ACCF;ADCE;EACE,iBAAA;EACA,kBAAA;ACCJ;ADEE;EACE,iBAAA;EACA,gCAAA;EACA,kCAAA;ACAJ;ADGE;EACE,kBAAA;EACA,iBAAA;EACA,8BAAA;ACDJ;ADIE;EACE,mBAAA;ACFJ;;AAEA,uCAAuC","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3127,7 +3097,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body, input, button {\n  font-family: Montserrat;\n}\n\na {\n  text-decoration: underline;\n}\n\na:hover {\n  color: dimgray;\n}\n\n.header {\n  background-color: pink;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  display: grid;\n  grid-template-columns: auto 100px 100px 100px 100px;\n  padding: 10px;\n  height: 60px;\n}\n\n.title, .nav {\n  display: flex;\n  align-items: end;\n}\n\n.title {\n  font-size: 30px;\n}\n\n.nav {\n  float: right;\n  justify-content: center;\n  margin: 0 10px 0 10px;\n}\n\n.nav:hover, u:hover {\n  cursor: default;\n  color: grey;\n}\n\n.toDo, .budget, .itinerary {\n  margin-top: 100px;\n  padding: 10px;\n}\n\nbutton {\n  margin-left: 10px;\n}\n\ninput {\n  border-width: 0 0 2px 0;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n\n.modal-content {\n  background-color: white;\n  padding: 10px;\n}\n\n.modal-body {\n  padding: 10px;\n  border-top: 1px solid white;\n  border-bottom: 1px solid white;\n}\n\n.modal-button {\n  margin: 10px 0;\n}\n\n/*# sourceMappingURL=styleSheet.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/styling/styleSheet.scss","webpack://./client/src/styling/styleSheet.css"],"names":[],"mappings":"AAAA;EACE,uBAAA;ACCF;;ADGA;EACE,0BAAA;ACAF;;ADGA;EACE,cAAA;ACAF;;ADGA;EACE,sBAAA;EACA,kBAAA;EACA,OAAA;EACA,MAAA;EACA,QAAA;EACA,aAAA;EACA,mDAAA;EACA,aAAA;EACA,YAAA;ACAF;;ADGA;EAEE,aAAA;EACA,gBAAA;ACDF;;ADIA;EACE,eAAA;ACDF;;ADIA;EACE,YAAA;EACA,uBAAA;EACA,qBAAA;ACDF;;ADIA;EACE,eAAA;EACA,WAAA;ACDF;;ADIA;EACE,iBAAA;EACA,aAAA;ACDF;;ADIA;EACE,iBAAA;ACDF;;ADIA;EACE,uBAAA;ACDF;;ADIA;EACE,eAAA;EACA,MAAA;EACA,QAAA;EACA,SAAA;EACA,OAAA;EACA,oCAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;ACDF;;ADIA;EAEE,uBAAA;EACA,aAAA;ACFF;;ADKA;EACE,aAAA;EACA,2BAAA;EACA,8BAAA;ACFF;;ADKA;EACE,cAAA;ACFF;;AAEA,yCAAyC","sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body, input, button {\n  font-family: Montserrat;\n}\n\na {\n  text-decoration: underline;\n}\n\na:hover {\n  color: dimgray;\n}\n\ndiv.login {\n  text-align: center;\n}\ndiv.login h1 {\n  text-align: center;\n}\ndiv.login button, div.login input {\n  margin: 10px;\n}\n\n.header {\n  background-color: pink;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  display: grid;\n  grid-template-columns: auto 100px 100px 100px 100px;\n  padding: 10px;\n  height: 60px;\n}\n.header .title {\n  font-size: 30px;\n}\n.header .title, .header .nav {\n  display: flex;\n  align-items: end;\n}\n.header .nav {\n  float: right;\n  justify-content: center;\n  margin: 0 10px 0 10px;\n}\n.header .nav:hover, .header u:hover {\n  cursor: default;\n  color: grey;\n}\n\n.toDo, .budget, .itinerary {\n  margin-top: 100px;\n  padding: 10px;\n}\n\nbutton {\n  margin-left: 10px;\n}\n\ninput {\n  border-width: 0 0 2px 0;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.modal .modal-content {\n  background-color: white;\n  padding: 10px;\n}\n.modal .modal-content .modal-body {\n  padding: 10px;\n  border-top: 1px solid white;\n  border-bottom: 1px solid white;\n}\n.modal .modal-content .modal-button {\n  margin: 10px 0;\n}\n\n/*# sourceMappingURL=styleSheet.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/styling/styleSheet.scss","webpack://./client/src/styling/styleSheet.css"],"names":[],"mappings":"AAAA;EACE,uBAAA;ACCF;;ADGA;EACE,0BAAA;ACAF;;ADGA;EACE,cAAA;ACAF;;ADGA;EACE,kBAAA;ACAF;ADCE;EACE,kBAAA;ACCJ;ADCE;EACE,YAAA;ACCJ;;ADGA;EACE,sBAAA;EACA,kBAAA;EACA,OAAA;EACA,MAAA;EACA,QAAA;EACA,aAAA;EACA,mDAAA;EACA,aAAA;EACA,YAAA;ACAF;ADEE;EACE,eAAA;ACAJ;ADGE;EACE,aAAA;EACA,gBAAA;ACDJ;ADIE;EACE,YAAA;EACA,uBAAA;EACA,qBAAA;ACFJ;ADKE;EACE,eAAA;EACA,WAAA;ACHJ;;ADOA;EACE,iBAAA;EACA,aAAA;ACJF;;ADOA;EACE,iBAAA;ACJF;;ADOA;EACE,uBAAA;ACJF;;ADOA;EACE,eAAA;EACA,MAAA;EACA,QAAA;EACA,SAAA;EACA,OAAA;EACA,oCAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;ACJF;ADME;EACE,uBAAA;EACA,aAAA;ACJJ;ADMI;EACE,aAAA;EACA,2BAAA;EACA,8BAAA;ACJN;ADOI;EACE,cAAA;ACLN;;AAEA,yCAAyC","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -34401,10 +34371,10 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./client/src/components/itinerary/itinerary.css":
-/*!*******************************************************!*\
-  !*** ./client/src/components/itinerary/itinerary.css ***!
-  \*******************************************************/
+/***/ "./client/src/components/timeline/timeline.css":
+/*!*****************************************************!*\
+  !*** ./client/src/components/timeline/timeline.css ***!
+  \*****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -34424,7 +34394,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/styleTagTransform.js */ "./node_modules/style-loader/dist/runtime/styleTagTransform.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_styleTagTransform_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_itinerary_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!./itinerary.css */ "./node_modules/css-loader/dist/cjs.js!./client/src/components/itinerary/itinerary.css");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_timeline_css__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!./timeline.css */ "./node_modules/css-loader/dist/cjs.js!./client/src/components/timeline/timeline.css");
 
       
       
@@ -34446,12 +34416,12 @@ options.setAttributes = (_node_modules_style_loader_dist_runtime_setAttributesWi
 options.domAPI = (_node_modules_style_loader_dist_runtime_styleDomAPI_js__WEBPACK_IMPORTED_MODULE_1___default());
 options.insertStyleElement = (_node_modules_style_loader_dist_runtime_insertStyleElement_js__WEBPACK_IMPORTED_MODULE_4___default());
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_itinerary_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_timeline_css__WEBPACK_IMPORTED_MODULE_6__["default"], options);
 
 
 
 
-       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_itinerary_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_itinerary_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_itinerary_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
+       /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_timeline_css__WEBPACK_IMPORTED_MODULE_6__["default"] && _node_modules_css_loader_dist_cjs_js_timeline_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals ? _node_modules_css_loader_dist_cjs_js_timeline_css__WEBPACK_IMPORTED_MODULE_6__["default"].locals : undefined);
 
 
 /***/ }),
@@ -34979,7 +34949,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_signup_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/signup.jsx */ "./client/src/components/signup.jsx");
 /* harmony import */ var _components_toDo_toDo_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/toDo/toDo.jsx */ "./client/src/components/toDo/toDo.jsx");
 /* harmony import */ var _components_budget_budget_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/budget/budget.jsx */ "./client/src/components/budget/budget.jsx");
-/* harmony import */ var _components_itinerary_itinerary_jsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/itinerary/itinerary.jsx */ "./client/src/components/itinerary/itinerary.jsx");
+/* harmony import */ var _components_timeline_timeline_jsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/timeline/timeline.jsx */ "./client/src/components/timeline/timeline.jsx");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -35030,15 +35000,15 @@ var App = function App() {
   var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
     _useState16 = _slicedToArray(_useState15, 2),
     costAdded = _useState16[0],
-    setCostAdded = _useState16[1]; // need to add to DB
+    setCostAdded = _useState16[1]; // in the DB
   var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
     _useState18 = _slicedToArray(_useState17, 2),
     warning = _useState18[0],
     setWarning = _useState18[1];
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
     _useState20 = _slicedToArray(_useState19, 2),
-    stickyNotes = _useState20[0],
-    setStickyNotes = _useState20[1]; // need to add to DB
+    itinerary = _useState20[0],
+    setItinerary = _useState20[1]; // need to add to DB
   // need another DB system for the vendors eventually (planner-side)
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -35107,9 +35077,9 @@ var App = function App() {
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "nav",
           onClick: function onClick() {
-            return setPage("itinerary");
+            return setPage("timeline");
           },
-          children: "Itinerary"
+          children: "Timeline"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "nav",
           onClick: logOut,
@@ -35134,9 +35104,9 @@ var App = function App() {
         costAdded: costAdded,
         setCostAdded: setCostAdded,
         formatter: formatter
-      }) : null, page === "itinerary" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_itinerary_itinerary_jsx__WEBPACK_IMPORTED_MODULE_8__["default"], {
-        stickyNotes: stickyNotes,
-        setStickyNotes: setStickyNotes
+      }) : null, page === "timeline" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_timeline_timeline_jsx__WEBPACK_IMPORTED_MODULE_8__["default"], {
+        itinerary: itinerary,
+        setItinerary: setItinerary
       }) : null]
     }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
       id: "authentication",
@@ -35147,7 +35117,8 @@ var App = function App() {
         setBudget: setBudget,
         setWeddingDate: setWeddingDate,
         setToDo: setToDo,
-        setCostAdded: setCostAdded
+        setCostAdded: setCostAdded,
+        setDone: setDone
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_signup_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
         setPage: setPage,
         setLogIn: setLogIn,

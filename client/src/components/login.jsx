@@ -21,6 +21,7 @@ const Login = (props) => {
             props.setToDo(data.data.toDos);
           }
           props.setCostAdded(data.data.currentCost);
+          props.setDone(data.data.completedToDos);
         } else {
           console.log(data.data);
         }
@@ -31,10 +32,10 @@ const Login = (props) => {
   }
 
   return (
-    <div>
+    <div className="login">
       <h1>Login</h1>
-      <input onChange={(e) => setemail(e.target.value)} type="email" placeholder="Email"/>
-      <input onChange={(e) => setpwd(e.target.value)} type="password" placeholder="Password"/>
+      <input onChange={(e) => setemail(e.target.value)} type="email" placeholder="Email"/><br/>
+      <input onChange={(e) => setpwd(e.target.value)} type="password" placeholder="Password"/><br/>
       <button onClick={logIn}>Log In</button>
       <p onClick={() => props.setPage('signUp')}>Just engaged? Congrats! <a>Create Account</a></p>
     </div>
