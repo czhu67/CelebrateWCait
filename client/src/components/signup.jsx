@@ -23,12 +23,13 @@ const SignUp = (props) => {
         if (data.data !== 'User already exists') {
           props.setLogIn(true);
           props.setPage('toDo');
+          props.setEmail(email);
         } else {
           console.log(data.data);
         }
       })
     } else {
-      alert('email or password invalid');
+      alert('Invalid e-mail/password');
       document.querySelector('.password').value = '';
     }
   }

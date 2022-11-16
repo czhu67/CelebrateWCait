@@ -2248,7 +2248,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 var Vendors = function Vendors(props) {
-  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
+  var _useState = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(Object.keys(props.costAdded)),
     _useState2 = _slicedToArray(_useState, 2),
     chosenVendors = _useState2[0],
     setChosenVendors = _useState2[1];
@@ -2523,17 +2523,24 @@ var Login = function Login(props) {
         email: email,
         pwd: pwd
       }).then(function (data) {
-        console.log(data.data);
         if (data.data !== 'Invalid e-mail/password') {
           props.setEmail(email);
           props.setLogIn(true);
           props.setPage('toDo');
-          props.setWeddingDate(new Date(data.data.date));
+          if (data.data.date !== null) {
+            props.setWeddingDate(new Date(data.data.date));
+          }
           props.setBudget(data.data.budget);
+          if (data.data.toDos.length !== 0) {
+            props.setToDo(data.data.toDos);
+          }
+          props.setCostAdded(data.data.currentCost);
+        } else {
+          console.log(data.data);
         }
       });
     } else {
-      console.log('invalid');
+      console.log('Invalid e-mail/password');
     }
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -2668,12 +2675,13 @@ var SignUp = function SignUp(props) {
         if (data.data !== 'User already exists') {
           props.setLogIn(true);
           props.setPage('toDo');
+          props.setEmail(email);
         } else {
           console.log(data.data);
         }
       });
     } else {
-      alert('email or password invalid');
+      alert('Invalid e-mail/password');
       document.querySelector('.password').value = '';
     }
   };
@@ -2780,16 +2788,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _toDo_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./toDo.css */ "./client/src/components/toDo/toDo.css");
 /* harmony import */ var _form_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./form.jsx */ "./client/src/components/toDo/form.jsx");
 /* harmony import */ var _modal_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modal.jsx */ "./client/src/components/modal.jsx");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
 
 
 
@@ -2849,10 +2854,6 @@ var ToDo = function ToDo(props) {
         var temp = JSON.parse(JSON.stringify(props.done));
         temp.push(firstLine(e.target.parentElement.parentElement.innerText));
         props.setDone(temp);
-        axios__WEBPACK_IMPORTED_MODULE_5___default().post('/date', {
-          email: props.email,
-          date: dateObject
-        });
       } else {
         props.setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
       }
@@ -2870,10 +2871,6 @@ var ToDo = function ToDo(props) {
       temp.push(firstLine(listItem.innerText));
       props.setDone(temp);
       props.setBudget(inputBudget);
-      axios__WEBPACK_IMPORTED_MODULE_5___default().post('/budget', {
-        email: props.email,
-        budget: inputBudget
-      });
     } else {
       props.setWarning('Invalid budget amount: amount must be over $0.');
       setInputBudget(0);
@@ -2896,6 +2893,7 @@ var ToDo = function ToDo(props) {
     var settingBudget = e.target.innerText.indexOf('Set budget') !== -1;
     var alreadyDone = props.done.includes(firstLine(e.target.innerText));
     if (!settingDate && !settingBudget) {
+      // mark as complete
       if (noTextDeco && list && !alreadyDone) {
         var temp = JSON.parse(JSON.stringify(props.done));
         var lineBreak = e.target.innerText.indexOf('\n');
@@ -2903,6 +2901,7 @@ var ToDo = function ToDo(props) {
         props.setDone(temp);
         e.target.style.textDecoration = 'line-through';
       } else if (e.target.className === 'list') {
+        // unmark: mark as incomplete
         e.target.style.textDecoration = '';
         undo(firstLine(e.target.innerText));
       }
@@ -2928,28 +2927,29 @@ var ToDo = function ToDo(props) {
     temp.splice(index, 1);
     props.setDone(temp);
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "toDo",
-    children: [props.warning !== '' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    children: [props.warning !== '' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
       message: "".concat(props.warning),
       setWarning: props.setWarning
-    }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "toDoHeader",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_form_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
         toDo: props.toDo,
-        setToDo: props.setToDo
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+        setToDo: props.setToDo,
+        email: props.email
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         className: "countdown",
         children: countdown ? "".concat(countdown.toLocaleString(), " days to go!") : 'Let\'s get planning!'
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("ul", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
       className: "toDo",
       children: [props.toDo.map(function (item, key) {
         var linethrough = '';
         if (props.done.includes(item)) {
           linethrough = 'line-through';
         }
-        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("li", {
+        return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("li", {
           onClick: markComplete,
           style: {
             textDecoration: linethrough
@@ -2958,65 +2958,65 @@ var ToDo = function ToDo(props) {
           id: "".concat(item),
           children: ["".concat(item, " "), item === "Set wedding date" ?
           // if wedding date is already set, render an Edit word that allows the user to reset it
-          props.weddingDate === undefined ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          props.weddingDate === undefined ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "dateForm",
-            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
               className: "inputDate",
               placeholder: "MM/DD/YYYY",
               onChange: function onChange(e) {
                 return setInputDate(e.target.value);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               onClick: createDate,
               children: "Set Date"
             })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "set",
             children: [props.weddingDate.toLocaleDateString('en-us', {
               weekday: "long",
               year: "numeric",
               month: "short",
               day: "numeric"
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
               onClick: edit,
               className: "edit",
               children: "Edit"
             })]
           }) : null, item === "Set budget" ?
           // if budget already exists, render an Edit word that allows the user to reset it
-          props.budget === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          props.budget === 0 ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "budgetForm",
-            children: ["$", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("input", {
+            children: ["$", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("input", {
               className: "inputBudget",
               placeholder: "Budget",
               onChange: function onChange(e) {
                 return setInputBudget(Number(e.target.value) || 0);
               }
-            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("button", {
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("button", {
               onClick: createBudget,
               children: "Set Budget"
             })]
-          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+          }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
             className: "set",
-            children: [props.formatter.format(props.budget), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+            children: [props.formatter.format(props.budget), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
               onClick: function onClick(e) {
                 return edit(e, 'budget');
               },
               className: "edit",
               children: "Edit"
             })]
-          }) : null, item !== "Set wedding date" && item !== "Set budget" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+          }) : null, item !== "Set wedding date" && item !== "Set budget" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
             className: "deleteItem",
             onClick: deleteItem,
             children: "\uD800\uDD02"
           }) : null]
         }, key);
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         onClick: function onClick() {
           return setLookAhead(!lookAhead);
         },
         children: "See what's ahead..."
-      }), lookAhead ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+      }), lookAhead ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
         children: "test"
       }) : null]
     })]
@@ -34972,9 +34972,9 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-/* harmony import */ var _styling_styleSheet_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./styling/styleSheet.css */ "./client/src/styling/styleSheet.css");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _styling_styleSheet_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./styling/styleSheet.css */ "./client/src/styling/styleSheet.css");
 /* harmony import */ var _components_login_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/login.jsx */ "./client/src/components/login.jsx");
 /* harmony import */ var _components_signup_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/signup.jsx */ "./client/src/components/signup.jsx");
 /* harmony import */ var _components_toDo_toDo_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/toDo/toDo.jsx */ "./client/src/components/toDo/toDo.jsx");
@@ -35014,11 +35014,11 @@ var App = function App() {
   var _useState7 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(['Set wedding date', 'Set budget', 'Book wedding venue', 'Get marriage license', 'Book vendors', 'Buy wedding dress']),
     _useState8 = _slicedToArray(_useState7, 2),
     toDo = _useState8[0],
-    setToDo = _useState8[1]; // need to add new ones to DB
+    setToDo = _useState8[1]; // in the DB
   var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]),
     _useState10 = _slicedToArray(_useState9, 2),
     done = _useState10[0],
-    setDone = _useState10[1]; // need to add to DB
+    setDone = _useState10[1]; // in the DB
   var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(undefined),
     _useState12 = _slicedToArray(_useState11, 2),
     weddingDate = _useState12[0],
@@ -35026,7 +35026,7 @@ var App = function App() {
   var _useState13 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(0),
     _useState14 = _slicedToArray(_useState13, 2),
     budget = _useState14[0],
-    setBudget = _useState14[1]; // need to add to DB
+    setBudget = _useState14[1]; // in the DB
   var _useState15 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
     _useState16 = _slicedToArray(_useState15, 2),
     costAdded = _useState16[0],
@@ -35041,11 +35041,50 @@ var App = function App() {
     setStickyNotes = _useState20[1]; // need to add to DB
   // need another DB system for the vendors eventually (planner-side)
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('/update', {
+      update: 'completedToDos',
+      email: email,
+      data: done
+    });
+  }, [done]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('/update', {
+      update: 'toDos',
+      email: email,
+      data: toDo
+    });
+  }, [toDo]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('/update', {
+      update: 'date',
+      email: email,
+      data: weddingDate
+    });
+  }, [weddingDate]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('/update', {
+      update: 'budget',
+      email: email,
+      data: budget
+    });
+  }, [budget]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('/update', {
+      update: 'currentCost',
+      email: email,
+      data: costAdded
+    });
+  }, [costAdded]);
   var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     maximumFractionDigits: 0
   });
+  var logOut = function logOut(e) {
+    e.preventDefault();
+    window.location.reload(false);
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
     children: loggedIn ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsxs)("div", {
@@ -35073,9 +35112,7 @@ var App = function App() {
           children: "Itinerary"
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)("div", {
           className: "nav",
-          onClick: function onClick() {
-            return console.log('out');
-          },
+          onClick: logOut,
           children: "Log Out"
         })]
       }), page === "toDo" ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_toDo_toDo_jsx__WEBPACK_IMPORTED_MODULE_6__["default"], {
@@ -35108,7 +35145,9 @@ var App = function App() {
         setLogIn: setLogIn,
         setEmail: setEmail,
         setBudget: setBudget,
-        setWeddingDate: setWeddingDate
+        setWeddingDate: setWeddingDate,
+        setToDo: setToDo,
+        setCostAdded: setCostAdded
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_signup_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
         setPage: setPage,
         setLogIn: setLogIn,

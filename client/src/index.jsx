@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import './styling/styleSheet.css';
 import axios from 'axios';
+import './styling/styleSheet.css';
 import Login from './components/login.jsx';
 import SignUp from './components/signup.jsx';
 import ToDo from './components/toDo/toDo.jsx';
@@ -12,20 +12,45 @@ const App = () => {
   const [page, setPage] = useState('login');
   const [loggedIn, setLogIn] = useState(false);
   const [email, setEmail] = useState('');
-  const [toDo, setToDo] = useState(['Set wedding date', 'Set budget', 'Book wedding venue', 'Get marriage license', 'Book vendors', 'Buy wedding dress']); // need to add new ones to DB
-  const [done, setDone] = useState([]); // need to add to DB
+  const [toDo, setToDo] = useState(['Set wedding date', 'Set budget', 'Book wedding venue', 'Get marriage license', 'Book vendors', 'Buy wedding dress']); // in the DB
+  const [done, setDone] = useState([]); // in the DB
   const [weddingDate, setWeddingDate] = useState(undefined);
-  const [budget, setBudget] = useState(0); // need to add to DB
+  const [budget, setBudget] = useState(0); // in the DB
   const [costAdded, setCostAdded] = useState({}); // need to add to DB
   const [warning, setWarning] = useState('');
   const [stickyNotes, setStickyNotes] = useState([]); // need to add to DB
   // need another DB system for the vendors eventually (planner-side)
+
+  useEffect(() => {
+    axios.post('/update', {update: 'completedToDos', email: email, data: done});
+  }, [done]);
+
+  useEffect(() => {
+    axios.post('/update', {update: 'toDos', email: email, data: toDo});
+  }, [toDo]);
+
+  useEffect(() => {
+    axios.post('/update', {update: 'date', email: email, data: weddingDate});
+  }, [weddingDate]);
+
+  useEffect(() => {
+    axios.post('/update', {update: 'budget', email: email, data: budget});
+  }, [budget]);
+
+  useEffect(() => {
+    axios.post('/update', {update: 'currentCost', email: email, data: costAdded});
+  }, [costAdded]);
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
     maximumFractionDigits: 0
   });
+
+  const logOut = (e) => {
+    e.preventDefault();
+    window.location.reload(false);
+  }
 
   return (
     <div>
@@ -36,12 +61,12 @@ const App = () => {
             <div className="nav" onClick={() => setPage("toDo")}>To Do</div>
             <div className="nav" onClick={() => setPage("budget")}>Budget</div>
             <div className="nav" onClick={() => setPage("itinerary")}>Itinerary</div>
-            <div className="nav" onClick={() => console.log('out')}>Log Out</div>
+            <div className="nav" onClick={logOut}>Log Out</div>
           </div>
           {page === "toDo" ? <ToDo email={email} budget={budget} setBudget={setBudget} formatter={formatter} warning={warning} setWarning={setWarning} done={done} setDone={setDone} toDo={toDo} setToDo={setToDo} weddingDate={weddingDate} setWeddingDate={setWeddingDate}/> : null}
           {page === "budget" ? <Budget setPage={setPage} budget={budget} costAdded={costAdded} setCostAdded={setCostAdded} formatter={formatter}/> : null}
           {page === "itinerary" ? <Itinerary stickyNotes={stickyNotes} setStickyNotes={setStickyNotes}/> : null}
-        </div>) : <div id="authentication">{page === "login" ? <Login setPage={setPage} setLogIn={setLogIn} setEmail={setEmail} setBudget={setBudget} setWeddingDate={setWeddingDate}/> : <SignUp setPage={setPage} setLogIn={setLogIn} setEmail={setEmail}/>}</div>}
+        </div>) : <div id="authentication">{page === "login" ? <Login setPage={setPage} setLogIn={setLogIn} setEmail={setEmail} setBudget={setBudget} setWeddingDate={setWeddingDate} setToDo={setToDo} setCostAdded={setCostAdded}/> : <SignUp setPage={setPage} setLogIn={setLogIn} setEmail={setEmail}/>}</div>}
     </div>
   );
 };

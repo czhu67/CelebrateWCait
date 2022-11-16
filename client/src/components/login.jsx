@@ -9,17 +9,24 @@ const Login = (props) => {
   var logIn = () => {
     if (email && pwd) {
       axios.post('/login', {email, pwd}).then((data) => {
-        console.log(data.data);
         if (data.data !== 'Invalid e-mail/password') {
           props.setEmail(email);
           props.setLogIn(true);
           props.setPage('toDo');
-          props.setWeddingDate(new Date(data.data.date));
+          if (data.data.date !== null) {
+            props.setWeddingDate(new Date(data.data.date));
+          }
           props.setBudget(data.data.budget);
+          if (data.data.toDos.length !== 0) {
+            props.setToDo(data.data.toDos);
+          }
+          props.setCostAdded(data.data.currentCost);
+        } else {
+          console.log(data.data);
         }
       })
     } else {
-      console.log('invalid');
+      console.log('Invalid e-mail/password');
     }
   }
 

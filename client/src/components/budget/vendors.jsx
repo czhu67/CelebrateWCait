@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const Vendors = (props) => {
-  const [chosenVendors, setChosenVendors] = useState([]);
+  const [chosenVendors, setChosenVendors] = useState(Object.keys(props.costAdded));
   const [cost, setCost] = useState(0);
 
   var addVendor = (vendor) => {

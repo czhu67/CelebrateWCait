@@ -32,11 +32,10 @@ app.post('/signup', (req, res) => {
 
 app.post('/login', (req, res) => {
   Users.find({_id: req.body.email}).then((data) => {
-    console.log(data);
     if (data.length !== 0) {
       argon2.verify(data[0].pwd, req.body.pwd).then((check) => {
         if (check) {
-          res.send({'addedToDos': data[0].addedToDos, budget: data[0].budget, completedToDos: data[0].completedToDos, currentCost: data[0].currentCost, date: data[0].date, stickies: data[0].stickies, vendors: data[0].vendors});
+          res.send({'toDos': data[0].toDos, budget: data[0].budget, completedToDos: data[0].completedToDos, currentCost: data[0].currentCost, date: data[0].date, stickies: data[0].stickies, vendors: data[0].vendors});
         }
       });
     } else {
@@ -45,20 +44,13 @@ app.post('/login', (req, res) => {
   });
 })
 
-app.post('/date', (req, res) => {
-  Users.updateMany({_id: req.body.email}, {date: req.body.date}).then((data) => console.log(data));
-  res.send()
+app.post('/update', (req, res) => {
+  let input = {};
+  input[req.body.update] = req.body.data;
+  Users.updateMany({_id: req.body.email}, input)
+  .then((data) => res.send(data))
+  .catch((err) => console.log(err));
 })
-
-app.post('/budget', (req, res) => {
-  Users.updateMany({_id: req.body.email}, {budget: req.body.budget}).then((data) => console.log(data));
-  res.send();
-})
-
-// app.get('/completedToDos', (req, res) => {
-//   // console.log('called');
-//   res.send('testing');
-// })
 
 let port = process.env.PORT || 3000;
 app.listen(port);

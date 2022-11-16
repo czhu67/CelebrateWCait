@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './toDo.css';
 import Form from './form.jsx';
 import Modal from '../modal.jsx';
-import axios from 'axios';
 
 const ToDo = (props) => {
   // key is days until wedding, value is list that needs to be added to existing list (toDo)
@@ -44,7 +43,6 @@ const ToDo = (props) => {
         let temp = JSON.parse(JSON.stringify(props.done));
         temp.push(firstLine(e.target.parentElement.parentElement.innerText));
         props.setDone(temp);
-        axios.post('/date', {email: props.email, date: dateObject});
       } else {
         props.setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
       }
@@ -63,7 +61,6 @@ const ToDo = (props) => {
       temp.push(firstLine(listItem.innerText));
       props.setDone(temp);
       props.setBudget(inputBudget);
-      axios.post('/budget', {email: props.email, budget: inputBudget});
     } else {
       props.setWarning('Invalid budget amount: amount must be over $0.');
       setInputBudget(0);
@@ -88,15 +85,16 @@ const ToDo = (props) => {
     let settingBudget = (e.target.innerText.indexOf('Set budget') !== -1);
     let alreadyDone = props.done.includes(firstLine(e.target.innerText));
     if (!settingDate && !settingBudget) {
+      // mark as complete
       if (noTextDeco && list && !alreadyDone) {
         let temp = JSON.parse(JSON.stringify(props.done));
         let lineBreak = e.target.innerText.indexOf('\n');
         temp.push(firstLine(e.target.innerText));
         props.setDone(temp);
         e.target.style.textDecoration = 'line-through';
-      } else if (e.target.className === 'list') {
+      } else if (e.target.className === 'list') { // unmark: mark as incomplete
         e.target.style.textDecoration = '';
-        undo(firstLine(e.target.innerText))
+        undo(firstLine(e.target.innerText));
       }
     }
   }
@@ -127,7 +125,7 @@ const ToDo = (props) => {
     <div className="toDo">
       {props.warning !== '' ? <Modal message={`${props.warning}`} setWarning={props.setWarning}/> : null}
       <div className="toDoHeader">
-        <Form toDo={props.toDo} setToDo={props.setToDo}/>
+        <Form toDo={props.toDo} setToDo={props.setToDo} email={props.email}/>
         <div className="countdown">{countdown ? `${countdown.toLocaleString()} days to go!` : 'Let\'s get planning!'}</div>
       </div>
       <ul className="toDo">
