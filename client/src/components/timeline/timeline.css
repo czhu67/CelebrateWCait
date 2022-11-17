@@ -8,7 +8,7 @@
   border-left: none;
   text-align: center;
 }
-#titles .cell {
+#titles .cell, #titles .time {
   padding: 5px 10px;
   border-left: 1px solid lightgrey;
   border-bottom: 1px solid lightgrey;

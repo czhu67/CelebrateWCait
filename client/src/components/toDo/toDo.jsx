@@ -11,7 +11,7 @@ const ToDo = (props) => {
   const [inputDate, setInputDate] = useState('');
   const [inputBudget, setInputBudget] = useState('');
   const [countdown, setCountdown] = useState(0);
-  const [lookAhead, setLookAhead] = useState(false);
+  // const [lookAhead, setLookAhead] = useState(false);
 
   useEffect(() => {
     if (props.weddingDate !== undefined) {
@@ -154,8 +154,8 @@ const ToDo = (props) => {
             </li>
           );
         })}
-        <div onClick={() => setLookAhead(!lookAhead)}>See what's ahead...</div>
-        {lookAhead ? <div>test</div> : null}
+        {/* <div onClick={() => setLookAhead(!lookAhead)}>See what's ahead...</div> */}
+        {/* {lookAhead ? <div>test</div> : null} */}
       </ul>
     </div>
   );

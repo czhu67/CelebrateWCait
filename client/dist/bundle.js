@@ -2094,7 +2094,7 @@ var Budget = function Budget(props) {
         name: 'Harry Styles',
         photo: "https://www.rollingstone.com/wp-content/uploads/2019/08/R1331_FEA_Harry_Styles_Fwm.jpg?w=800"
       }, {
-        name: 'Zed',
+        name: 'Zedd',
         photo: "https://www.billboard.com/wp-content/uploads/media/zedd-bb19-jdge-2017-feat-billboard-1240.jpg?w=1240"
       }, {
         name: 'Calvin Harris',
@@ -2390,15 +2390,20 @@ var Login = function Login(props) {
           props.setEmail(email);
           props.setLogIn(true);
           props.setPage('toDo');
+          props.setBudget(data.data.budget);
+          props.setDone(data.data.completedToDos);
           if (data.data.date !== null) {
             props.setWeddingDate(new Date(data.data.date));
           }
-          props.setBudget(data.data.budget);
           if (data.data.toDos.length !== 0) {
             props.setToDo(data.data.toDos);
           }
-          props.setCostAdded(data.data.currentCost);
-          props.setDone(data.data.completedToDos);
+          if (data.data.currentCost !== undefined) {
+            props.setCostAdded(data.data.currentCost);
+          }
+          if (data.data.itinerary !== undefined) {
+            props.setItinerary(data.data.itinerary);
+          }
         } else {
           console.log(data.data);
         }
@@ -2624,6 +2629,16 @@ var Timeline = function Timeline(props) {
   var times = Array.from(Array(16 * columns).keys());
   var startTime = 9; // start time of the day
 
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    for (var id in props.itinerary) {
+      document.getElementById(id).innerText = props.itinerary[id];
+    }
+  }, []);
+  var logEdit = function logEdit(e) {
+    var temp = JSON.parse(JSON.stringify(props.itinerary));
+    temp[e.target.id] = e.target.innerText;
+    props.setItinerary(temp);
+  };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
     className: "itinerary",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
@@ -2645,12 +2660,12 @@ var Timeline = function Timeline(props) {
           }
           if (time === times.length - columns) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "time cell lastRow",
+              className: "time lastRow",
               children: "".concat(num + startTime, ":00")
             }, key);
           } else {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "time cell",
+              className: "time",
               children: "".concat(num + startTime, ":00")
             }, key);
           }
@@ -2659,25 +2674,31 @@ var Timeline = function Timeline(props) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               id: "".concat(num + startTime, "Event"),
               className: "cell lastRow",
-              contentEditable: "true"
+              contentEditable: "true",
+              onBlur: logEdit
             }, key);
           } else {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               id: "".concat(num + startTime, "Event"),
-              className: "cell",
-              contentEditable: "true"
+              className: "cell event",
+              contentEditable: "true",
+              onBlur: logEdit
             }, key);
           }
         } else {
           if (time > times.length - columns) {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              id: "".concat(num + startTime, "Note"),
               className: "cell lastRow",
-              contentEditable: "true"
+              contentEditable: "true",
+              onBlur: logEdit
             }, key);
           } else {
             return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-              className: "cell",
-              contentEditable: "true"
+              id: "".concat(num + startTime, "Note"),
+              className: "cell note",
+              contentEditable: "true",
+              onBlur: logEdit
             }, key);
           }
         }
@@ -2793,10 +2814,8 @@ var ToDo = function ToDo(props) {
     _useState8 = _slicedToArray(_useState7, 2),
     countdown = _useState8[0],
     setCountdown = _useState8[1];
-  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
-    _useState10 = _slicedToArray(_useState9, 2),
-    lookAhead = _useState10[0],
-    setLookAhead = _useState10[1];
+  // const [lookAhead, setLookAhead] = useState(false);
+
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     if (props.weddingDate !== undefined) {
       var date = new Date();
@@ -2912,9 +2931,9 @@ var ToDo = function ToDo(props) {
         className: "countdown",
         children: countdown ? "".concat(countdown.toLocaleString(), " days to go!") : 'Let\'s get planning!'
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("ul", {
       className: "toDo",
-      children: [props.toDo.map(function (item, key) {
+      children: props.toDo.map(function (item, key) {
         var linethrough = '';
         if (props.done.includes(item)) {
           linethrough = 'line-through';
@@ -2981,14 +3000,7 @@ var ToDo = function ToDo(props) {
             children: "\uD800\uDD02"
           }) : null]
         }, key);
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-        onClick: function onClick() {
-          return setLookAhead(!lookAhead);
-        },
-        children: "See what's ahead..."
-      }), lookAhead ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("div", {
-        children: "test"
-      }) : null]
+      })
     })]
   });
 };
@@ -3043,7 +3055,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#titles {\n  display: grid;\n  grid-template-columns: 10% 25% 15%;\n  margin: 20px;\n  justify-content: center;\n}\n#titles div.time {\n  border-left: none;\n  text-align: center;\n}\n#titles .cell {\n  padding: 5px 10px;\n  border-left: 1px solid lightgrey;\n  border-bottom: 1px solid lightgrey;\n}\n#titles .title {\n  text-align: center;\n  padding: 5px 10px;\n  border-bottom: 2px solid black;\n}\n#titles div.lastRow {\n  border-bottom: none;\n}\n\n/*# sourceMappingURL=timeline.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/components/timeline/timeline.scss","webpack://./client/src/components/timeline/timeline.css"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,kCAAA;EACA,YAAA;EACA,uBAAA;ACCF;ADCE;EACE,iBAAA;EACA,kBAAA;ACCJ;ADEE;EACE,iBAAA;EACA,gCAAA;EACA,kCAAA;ACAJ;ADGE;EACE,kBAAA;EACA,iBAAA;EACA,8BAAA;ACDJ;ADIE;EACE,mBAAA;ACFJ;;AAEA,uCAAuC","sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "#titles {\n  display: grid;\n  grid-template-columns: 10% 25% 15%;\n  margin: 20px;\n  justify-content: center;\n}\n#titles div.time {\n  border-left: none;\n  text-align: center;\n}\n#titles .cell, #titles .time {\n  padding: 5px 10px;\n  border-left: 1px solid lightgrey;\n  border-bottom: 1px solid lightgrey;\n}\n#titles .title {\n  text-align: center;\n  padding: 5px 10px;\n  border-bottom: 2px solid black;\n}\n#titles div.lastRow {\n  border-bottom: none;\n}\n\n/*# sourceMappingURL=timeline.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/components/timeline/timeline.scss","webpack://./client/src/components/timeline/timeline.css"],"names":[],"mappings":"AAAA;EACE,aAAA;EACA,kCAAA;EACA,YAAA;EACA,uBAAA;ACCF;ADCE;EACE,iBAAA;EACA,kBAAA;ACCJ;ADEE;EACE,iBAAA;EACA,gCAAA;EACA,kCAAA;ACAJ;ADGE;EACE,kBAAA;EACA,iBAAA;EACA,8BAAA;ACDJ;ADIE;EACE,mBAAA;ACFJ;;AAEA,uCAAuC","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3097,7 +3109,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body, input, button {\n  font-family: Montserrat;\n}\n\na {\n  text-decoration: underline;\n}\n\na:hover {\n  color: dimgray;\n}\n\ndiv.login {\n  text-align: center;\n}\ndiv.login h1 {\n  text-align: center;\n}\ndiv.login button, div.login input {\n  margin: 10px;\n}\n\n.header {\n  background-color: pink;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  display: grid;\n  grid-template-columns: auto 100px 100px 100px 100px;\n  padding: 10px;\n  height: 60px;\n}\n.header .title {\n  font-size: 30px;\n}\n.header .title, .header .nav {\n  display: flex;\n  align-items: end;\n}\n.header .nav {\n  float: right;\n  justify-content: center;\n  margin: 0 10px 0 10px;\n}\n.header .nav:hover, .header u:hover {\n  cursor: default;\n  color: grey;\n}\n\n.toDo, .budget, .itinerary {\n  margin-top: 100px;\n  padding: 10px;\n}\n\nbutton {\n  margin-left: 10px;\n}\n\ninput {\n  border-width: 0 0 2px 0;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.modal .modal-content {\n  background-color: white;\n  padding: 10px;\n}\n.modal .modal-content .modal-body {\n  padding: 10px;\n  border-top: 1px solid white;\n  border-bottom: 1px solid white;\n}\n.modal .modal-content .modal-button {\n  margin: 10px 0;\n}\n\n/*# sourceMappingURL=styleSheet.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/styling/styleSheet.scss","webpack://./client/src/styling/styleSheet.css"],"names":[],"mappings":"AAAA;EACE,uBAAA;ACCF;;ADGA;EACE,0BAAA;ACAF;;ADGA;EACE,cAAA;ACAF;;ADGA;EACE,kBAAA;ACAF;ADCE;EACE,kBAAA;ACCJ;ADCE;EACE,YAAA;ACCJ;;ADGA;EACE,sBAAA;EACA,kBAAA;EACA,OAAA;EACA,MAAA;EACA,QAAA;EACA,aAAA;EACA,mDAAA;EACA,aAAA;EACA,YAAA;ACAF;ADEE;EACE,eAAA;ACAJ;ADGE;EACE,aAAA;EACA,gBAAA;ACDJ;ADIE;EACE,YAAA;EACA,uBAAA;EACA,qBAAA;ACFJ;ADKE;EACE,eAAA;EACA,WAAA;ACHJ;;ADOA;EACE,iBAAA;EACA,aAAA;ACJF;;ADOA;EACE,iBAAA;ACJF;;ADOA;EACE,uBAAA;ACJF;;ADOA;EACE,eAAA;EACA,MAAA;EACA,QAAA;EACA,SAAA;EACA,OAAA;EACA,oCAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;ACJF;ADME;EACE,uBAAA;EACA,aAAA;ACJJ;ADMI;EACE,aAAA;EACA,2BAAA;EACA,8BAAA;ACJN;ADOI;EACE,cAAA;ACLN;;AAEA,yCAAyC","sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body, input, button {\n  font-family: Montserrat;\n}\n\na {\n  text-decoration: underline;\n}\n\na:hover {\n  color: dimgray;\n}\n\ndiv.login {\n  text-align: center;\n  margin-top: 10%;\n}\ndiv.login h1 {\n  text-align: center;\n}\ndiv.login button, div.login input {\n  margin: 10px;\n}\n\n.header {\n  background-color: pink;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  display: grid;\n  grid-template-columns: auto 100px 100px 100px 100px;\n  padding: 10px;\n  height: 60px;\n}\n.header .title {\n  font-size: 30px;\n}\n.header .title, .header .nav {\n  display: flex;\n  align-items: end;\n}\n.header .nav {\n  float: right;\n  justify-content: center;\n  margin: 0 10px 0 10px;\n}\n.header .nav:hover, .header u:hover {\n  cursor: default;\n  color: grey;\n}\n\n.toDo, .budget, .itinerary {\n  margin-top: 100px;\n  padding: 10px;\n}\n\nbutton {\n  margin-left: 10px;\n}\n\ninput {\n  border-width: 0 0 2px 0;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.modal .modal-content {\n  background-color: white;\n  padding: 10px;\n}\n.modal .modal-content .modal-body {\n  padding: 10px;\n  border-top: 1px solid white;\n  border-bottom: 1px solid white;\n}\n.modal .modal-content .modal-button {\n  margin: 10px 0;\n}\n\n/*# sourceMappingURL=styleSheet.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/styling/styleSheet.scss","webpack://./client/src/styling/styleSheet.css"],"names":[],"mappings":"AAAA;EACE,uBAAA;ACCF;;ADGA;EACE,0BAAA;ACAF;;ADGA;EACE,cAAA;ACAF;;ADGA;EACE,kBAAA;EACA,eAAA;ACAF;ADEE;EACE,kBAAA;ACAJ;ADGE;EACE,YAAA;ACDJ;;ADKA;EACE,sBAAA;EACA,kBAAA;EACA,OAAA;EACA,MAAA;EACA,QAAA;EACA,aAAA;EACA,mDAAA;EACA,aAAA;EACA,YAAA;ACFF;ADIE;EACE,eAAA;ACFJ;ADKE;EACE,aAAA;EACA,gBAAA;ACHJ;ADME;EACE,YAAA;EACA,uBAAA;EACA,qBAAA;ACJJ;ADOE;EACE,eAAA;EACA,WAAA;ACLJ;;ADSA;EACE,iBAAA;EACA,aAAA;ACNF;;ADSA;EACE,iBAAA;ACNF;;ADSA;EACE,uBAAA;ACNF;;ADSA;EACE,eAAA;EACA,MAAA;EACA,QAAA;EACA,SAAA;EACA,OAAA;EACA,oCAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;ACNF;ADQE;EACE,uBAAA;EACA,aAAA;ACNJ;ADQI;EACE,aAAA;EACA,2BAAA;EACA,8BAAA;ACNN;ADSI;EACE,cAAA;ACPN;;AAEA,yCAAyC","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -35011,6 +35023,7 @@ var App = function App() {
     setItinerary = _useState20[1]; // need to add to DB
   // need another DB system for the vendors eventually (planner-side)
 
+  console.log(itinerary);
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
     axios__WEBPACK_IMPORTED_MODULE_2___default().post('/update', {
       update: 'completedToDos',
@@ -35046,6 +35059,13 @@ var App = function App() {
       data: costAdded
     });
   }, [costAdded]);
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
+    axios__WEBPACK_IMPORTED_MODULE_2___default().post('/update', {
+      update: 'itinerary',
+      email: email,
+      data: itinerary
+    });
+  }, [itinerary]);
   var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
@@ -35118,7 +35138,8 @@ var App = function App() {
         setWeddingDate: setWeddingDate,
         setToDo: setToDo,
         setCostAdded: setCostAdded,
-        setDone: setDone
+        setDone: setDone,
+        setItinerary: setItinerary
       }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_components_signup_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
         setPage: setPage,
         setLogIn: setLogIn,

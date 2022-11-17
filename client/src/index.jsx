@@ -21,6 +21,8 @@ const App = () => {
   const [itinerary, setItinerary] = useState({}); // need to add to DB
   // need another DB system for the vendors eventually (planner-side)
 
+  console.log(itinerary);
+
   useEffect(() => {
     axios.post('/update', {update: 'completedToDos', email: email, data: done});
   }, [done]);
@@ -40,6 +42,10 @@ const App = () => {
   useEffect(() => {
     axios.post('/update', {update: 'currentCost', email: email, data: costAdded});
   }, [costAdded]);
+
+  useEffect(() => {
+    axios.post('/update', {update: 'itinerary', email: email, data: itinerary});
+  }, [itinerary]);
 
   const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
@@ -66,7 +72,7 @@ const App = () => {
           {page === "toDo" ? <ToDo email={email} budget={budget} setBudget={setBudget} formatter={formatter} warning={warning} setWarning={setWarning} done={done} setDone={setDone} toDo={toDo} setToDo={setToDo} weddingDate={weddingDate} setWeddingDate={setWeddingDate}/> : null}
           {page === "budget" ? <Budget setPage={setPage} budget={budget} costAdded={costAdded} setCostAdded={setCostAdded} formatter={formatter}/> : null}
           {page === "timeline" ? <Timeline itinerary={itinerary} setItinerary={setItinerary}/> : null}
-        </div>) : <div id="authentication">{page === "login" ? (<Login setPage={setPage} setLogIn={setLogIn} setEmail={setEmail} setBudget={setBudget} setWeddingDate={setWeddingDate} setToDo={setToDo} setCostAdded={setCostAdded} setDone={setDone}/>) : <SignUp setPage={setPage} setLogIn={setLogIn} setEmail={setEmail}/>}</div>}
+        </div>) : <div id="authentication">{page === "login" ? (<Login setPage={setPage} setLogIn={setLogIn} setEmail={setEmail} setBudget={setBudget} setWeddingDate={setWeddingDate} setToDo={setToDo} setCostAdded={setCostAdded} setDone={setDone} setItinerary={setItinerary}/>) : <SignUp setPage={setPage} setLogIn={setLogIn} setEmail={setEmail}/>}</div>}
     </div>
   );
 };

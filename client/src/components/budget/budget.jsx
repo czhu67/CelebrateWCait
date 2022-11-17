@@ -8,7 +8,7 @@ const Budget = (props) => {
     {name: 'DJ Khaled', photo: "https://pbs.twimg.com/profile_images/1129254673209339905/hMI9TU58_400x400.png"},
     {name: 'Diplo', photo: "https://media.npr.org/assets/img/2017/11/20/diplo-2016-alexei-hay-2_wide-43e8194133f367cedf750e8114e119c8ce982473.jpg"},
     {name: 'Harry Styles', photo: "https://www.rollingstone.com/wp-content/uploads/2019/08/R1331_FEA_Harry_Styles_Fwm.jpg?w=800"},
-    {name: 'Zed', photo: "https://www.billboard.com/wp-content/uploads/media/zedd-bb19-jdge-2017-feat-billboard-1240.jpg?w=1240"},
+    {name: 'Zedd', photo: "https://www.billboard.com/wp-content/uploads/media/zedd-bb19-jdge-2017-feat-billboard-1240.jpg?w=1240"},
     {name: 'Calvin Harris', photo: "https://variety.com/wp-content/uploads/2013/08/calvin-harris-top-earning-dj.jpg"}], Photography: [{name: '1', photo: ''}, {name: '2', photo: ''}, {name: '3', photo: ''}, {name: 'say cheese!', photo: ''}], Videography: [{name: '1', photo: ''}, {name: '2', photo: ''}, {name: '3', photo: ''}, {name: 'action!', photo: ''}], Catering: [{name: 'McDonald\'s', photo: "https://i.insider.com/6334125c9ac0610018e7ff1d?width=700"}, {name: 'Shake Shack', photo:'https://media-cdn.grubhub.com/image/upload/d_search:browse-images:default.jpg/w_300,q_100,fl_lossy,dpr_2.0,c_fit,f_auto,h_300/npp3at7u5pmstkogyelq'}]});
   // uses the "first" type of vendor in the object's list of vendors
   const [vendorCategory, setVendorCategory] = useState(Object.keys(vendors)[0]);

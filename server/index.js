@@ -34,7 +34,7 @@ app.post('/login', (req, res) => {
     if (data.length !== 0) {
       argon2.verify(data[0].pwd, req.body.pwd).then((check) => {
         if (check) {
-          res.send({'toDos': data[0].toDos, budget: data[0].budget, completedToDos: data[0].completedToDos, currentCost: data[0].currentCost, date: data[0].date, stickies: data[0].stickies, vendors: data[0].vendors});
+          res.send({'toDos': data[0].toDos, budget: data[0].budget, completedToDos: data[0].completedToDos, currentCost: data[0].currentCost, date: data[0].date, itinerary: data[0].itinerary, vendors: data[0].vendors});
         }
       });
     } else {

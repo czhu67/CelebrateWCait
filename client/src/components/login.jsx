@@ -13,15 +13,20 @@ const Login = (props) => {
           props.setEmail(email);
           props.setLogIn(true);
           props.setPage('toDo');
+          props.setBudget(data.data.budget);
+          props.setDone(data.data.completedToDos);
           if (data.data.date !== null) {
             props.setWeddingDate(new Date(data.data.date));
           }
-          props.setBudget(data.data.budget);
           if (data.data.toDos.length !== 0) {
             props.setToDo(data.data.toDos);
           }
-          props.setCostAdded(data.data.currentCost);
-          props.setDone(data.data.completedToDos);
+          if (data.data.currentCost !== undefined) {
+            props.setCostAdded(data.data.currentCost);
+          }
+          if (data.data.itinerary !== undefined) {
+            props.setItinerary(data.data.itinerary);
+          }
         } else {
           console.log(data.data);
         }
