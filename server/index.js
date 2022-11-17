@@ -24,7 +24,7 @@ app.post('/signup', (req, res) => {
         .catch((err) => res.send());
       });
     } else {
-      res.send('User already exists');
+      res.send('An account under this email already exists. Please log in.');
     }
   });
 })
@@ -35,10 +35,12 @@ app.post('/login', (req, res) => {
       argon2.verify(data[0].pwd, req.body.pwd).then((check) => {
         if (check) {
           res.send({'toDos': data[0].toDos, budget: data[0].budget, completedToDos: data[0].completedToDos, currentCost: data[0].currentCost, date: data[0].date, itinerary: data[0].itinerary, vendors: data[0].vendors});
+        } else {
+          res.send('Incorrect password. Please try again.');
         }
       });
     } else {
-      res.send('Invalid e-mail/password');
+      res.send(`User with ${req.body.email} does not exist. Please create an account or try again.`);
     }
   });
 })

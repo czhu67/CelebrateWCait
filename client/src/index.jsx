@@ -17,7 +17,7 @@ const App = () => {
   const [weddingDate, setWeddingDate] = useState(undefined);
   const [budget, setBudget] = useState(0); // in the DB
   const [costAdded, setCostAdded] = useState({}); // in the DB
-  const [warning, setWarning] = useState('');
+  // const [warning, setWarning] = useState('');
   const [itinerary, setItinerary] = useState({}); // need to add to DB
   // need another DB system for the vendors eventually (planner-side)
 
@@ -69,7 +69,7 @@ const App = () => {
             <div className="nav" onClick={() => setPage("timeline")}>Timeline</div>
             <div className="nav" onClick={logOut}>Log Out</div>
           </div>
-          {page === "toDo" ? <ToDo email={email} budget={budget} setBudget={setBudget} formatter={formatter} warning={warning} setWarning={setWarning} done={done} setDone={setDone} toDo={toDo} setToDo={setToDo} weddingDate={weddingDate} setWeddingDate={setWeddingDate}/> : null}
+          {page === "toDo" ? <ToDo email={email} budget={budget} setBudget={setBudget} formatter={formatter} done={done} setDone={setDone} toDo={toDo} setToDo={setToDo} weddingDate={weddingDate} setWeddingDate={setWeddingDate}/> : null}
           {page === "budget" ? <Budget setPage={setPage} budget={budget} costAdded={costAdded} setCostAdded={setCostAdded} formatter={formatter}/> : null}
           {page === "timeline" ? <Timeline itinerary={itinerary} setItinerary={setItinerary}/> : null}
         </div>) : <div id="authentication">{page === "login" ? (<Login setPage={setPage} setLogIn={setLogIn} setEmail={setEmail} setBudget={setBudget} setWeddingDate={setWeddingDate} setToDo={setToDo} setCostAdded={setCostAdded} setDone={setDone} setItinerary={setItinerary}/>) : <SignUp setPage={setPage} setLogIn={setLogIn} setEmail={setEmail}/>}</div>}

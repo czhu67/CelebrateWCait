@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import Modal from './modal.jsx';
 
 const SignUp = (props) => {
   const [fname, setfname] = useState('');
   const [lname, setlname] = useState('');
   const [email, setemail] = useState('');
   const [pwd, setpwd] = useState('');
+  const [err, setErr] = useState(false);
+  const [warning, setWarning] = useState('');
 
   var createAccount = () => {
     var pwdCheck = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
     var emailCheck = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
-    if (emailCheck.test(email) && pwdCheck.test(pwd)) {
+    if (emailCheck.test(email) && pwdCheck.test(pwd) && fname !== '' && lname !== '') {
       document.querySelectorAll('.form').forEach((item) => {
         item.value = '';
         setfname('');
@@ -20,22 +23,24 @@ const SignUp = (props) => {
         setpwd('');
       })
       axios.post('/signup', {email, pwd}).then((data) => {
-        if (data.data !== 'User already exists') {
+        if (data.data !== 'An account under this email already exists. Please log in.') {
           props.setLogIn(true);
           props.setPage('toDo');
           props.setEmail(email);
         } else {
-          console.log(data.data);
+          setWarning(data.data);
+          document.querySelector('.password').value = '';
         }
       })
     } else {
-      alert('Invalid e-mail/password');
+      setWarning('Invalid e-mail/password. Please make sure all fields are filled and correct.');
       document.querySelector('.password').value = '';
     }
   }
 
   return (
     <div className="login">
+      {warning !== '' ? <Modal message={`${warning}`} setWarning={setWarning}/> : null}
       <h1>Sign Up</h1>
       <input className="form" onChange={(e) => setfname(e.target.value)} placeholder="First Name"/><br/>
       <input className="form" onChange={(e) => setlname(e.target.value)} placeholder="Last Name"/><br/>

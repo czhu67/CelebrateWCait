@@ -2359,13 +2359,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _modal_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modal.jsx */ "./client/src/components/modal.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -2380,13 +2382,17 @@ var Login = function Login(props) {
     _useState4 = _slicedToArray(_useState3, 2),
     pwd = _useState4[0],
     setpwd = _useState4[1];
+  var _useState5 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState6 = _slicedToArray(_useState5, 2),
+    warning = _useState6[0],
+    setWarning = _useState6[1];
   var logIn = function logIn() {
     if (email && pwd) {
       axios__WEBPACK_IMPORTED_MODULE_2___default().post('/login', {
         email: email,
         pwd: pwd
       }).then(function (data) {
-        if (data.data !== 'Invalid e-mail/password') {
+        if (data.data.indexOf('does not exist') === -1 && data.data !== 'Incorrect password. Please try again.') {
           props.setEmail(email);
           props.setLogIn(true);
           props.setPage('toDo');
@@ -2405,37 +2411,43 @@ var Login = function Login(props) {
             props.setItinerary(data.data.itinerary);
           }
         } else {
-          console.log(data.data);
+          setWarning(data.data);
+          document.querySelector('.password').value = '';
         }
       });
     } else {
-      console.log('Invalid e-mail/password');
+      setWarning('Invalid email/password.');
+      document.querySelector('.password').value = '';
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "login",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
+    children: [warning !== '' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modal_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      message: "".concat(warning),
+      setWarning: setWarning
+    }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
       children: "Login"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
       onChange: function onChange(e) {
         return setemail(e.target.value);
       },
       type: "email",
       placeholder: "Email"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
+      className: "password",
       onChange: function onChange(e) {
         return setpwd(e.target.value);
       },
       type: "password",
       placeholder: "Password"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
       onClick: logIn,
       children: "Log In"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
       onClick: function onClick() {
         return props.setPage('signUp');
       },
-      children: ["Just engaged? Congrats! ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      children: ["Just engaged? Congrats! ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
         children: "Create Account"
       })]
     })]
@@ -2498,13 +2510,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _modal_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modal.jsx */ "./client/src/components/modal.jsx");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -2527,10 +2541,18 @@ var SignUp = function SignUp(props) {
     _useState8 = _slicedToArray(_useState7, 2),
     pwd = _useState8[0],
     setpwd = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false),
+    _useState10 = _slicedToArray(_useState9, 2),
+    err = _useState10[0],
+    setErr = _useState10[1];
+  var _useState11 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState12 = _slicedToArray(_useState11, 2),
+    warning = _useState12[0],
+    setWarning = _useState12[1];
   var createAccount = function createAccount() {
     var pwdCheck = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})');
     var emailCheck = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
-    if (emailCheck.test(email) && pwdCheck.test(pwd)) {
+    if (emailCheck.test(email) && pwdCheck.test(pwd) && fname !== '' && lname !== '') {
       document.querySelectorAll('.form').forEach(function (item) {
         item.value = '';
         setfname('');
@@ -2542,57 +2564,61 @@ var SignUp = function SignUp(props) {
         email: email,
         pwd: pwd
       }).then(function (data) {
-        if (data.data !== 'User already exists') {
+        if (data.data !== 'An account under this email already exists. Please log in.') {
           props.setLogIn(true);
           props.setPage('toDo');
           props.setEmail(email);
         } else {
-          console.log(data.data);
+          setWarning(data.data);
+          document.querySelector('.password').value = '';
         }
       });
     } else {
-      alert('Invalid e-mail/password');
+      setWarning('Invalid e-mail/password. Please make sure all fields are filled and correct.');
       document.querySelector('.password').value = '';
     }
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     className: "login",
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("h1", {
+    children: [warning !== '' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_modal_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      message: "".concat(warning),
+      setWarning: setWarning
+    }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("h1", {
       children: "Sign Up"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
       className: "form",
       onChange: function onChange(e) {
         return setfname(e.target.value);
       },
       placeholder: "First Name"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
       className: "form",
       onChange: function onChange(e) {
         return setlname(e.target.value);
       },
       placeholder: "Last Name"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
       className: "form",
       onChange: function onChange(e) {
         return setemail(e.target.value);
       },
       type: "email",
       placeholder: "Email"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("input", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("input", {
       className: "form password",
       onChange: function onChange(e) {
         return setpwd(e.target.value);
       },
       type: "password",
       placeholder: "Password"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("button", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("br", {}), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("button", {
       onClick: createAccount,
       children: "Sign Up"
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsxs)("p", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("p", {
       onClick: function onClick() {
         return props.setPage('login');
       },
-      children: ["Existing user? ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      children: ["Existing user? ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("a", {
         children: "Log In"
       })]
     })]
@@ -2814,6 +2840,10 @@ var ToDo = function ToDo(props) {
     _useState8 = _slicedToArray(_useState7, 2),
     countdown = _useState8[0],
     setCountdown = _useState8[1];
+  var _useState9 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+    _useState10 = _slicedToArray(_useState9, 2),
+    warning = _useState10[0],
+    setWarning = _useState10[1];
   // const [lookAhead, setLookAhead] = useState(false);
 
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(function () {
@@ -2844,10 +2874,10 @@ var ToDo = function ToDo(props) {
         temp.push(firstLine(e.target.parentElement.parentElement.innerText));
         props.setDone(temp);
       } else {
-        props.setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
+        setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
       }
     } else {
-      props.setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
+      setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
       setInputDate(0);
       document.querySelector('.inputDate').value = '';
     }
@@ -2861,7 +2891,7 @@ var ToDo = function ToDo(props) {
       props.setDone(temp);
       props.setBudget(inputBudget);
     } else {
-      props.setWarning('Invalid budget amount: amount must be over $0.');
+      setWarning('Invalid budget amount: amount must be over $0.');
       setInputBudget(0);
       document.querySelector('.inputBudget').value = '';
     }
@@ -2918,9 +2948,9 @@ var ToDo = function ToDo(props) {
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     className: "toDo",
-    children: [props.warning !== '' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      message: "".concat(props.warning),
-      setWarning: props.setWarning
+    children: [warning !== '' ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_modal_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      message: "".concat(warning),
+      setWarning: setWarning
     }) : null, /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
       className: "toDoHeader",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_form_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
@@ -3109,7 +3139,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "body, input, button {\n  font-family: Montserrat;\n}\n\na {\n  text-decoration: underline;\n}\n\na:hover {\n  color: dimgray;\n}\n\ndiv.login {\n  text-align: center;\n  margin-top: 10%;\n}\ndiv.login h1 {\n  text-align: center;\n}\ndiv.login button, div.login input {\n  margin: 10px;\n}\n\n.header {\n  background-color: pink;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  display: grid;\n  grid-template-columns: auto 100px 100px 100px 100px;\n  padding: 10px;\n  height: 60px;\n}\n.header .title {\n  font-size: 30px;\n}\n.header .title, .header .nav {\n  display: flex;\n  align-items: end;\n}\n.header .nav {\n  float: right;\n  justify-content: center;\n  margin: 0 10px 0 10px;\n}\n.header .nav:hover, .header u:hover {\n  cursor: default;\n  color: grey;\n}\n\n.toDo, .budget, .itinerary {\n  margin-top: 100px;\n  padding: 10px;\n}\n\nbutton {\n  margin-left: 10px;\n}\n\ninput {\n  border-width: 0 0 2px 0;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.modal .modal-content {\n  background-color: white;\n  padding: 10px;\n}\n.modal .modal-content .modal-body {\n  padding: 10px;\n  border-top: 1px solid white;\n  border-bottom: 1px solid white;\n}\n.modal .modal-content .modal-button {\n  margin: 10px 0;\n}\n\n/*# sourceMappingURL=styleSheet.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/styling/styleSheet.scss","webpack://./client/src/styling/styleSheet.css"],"names":[],"mappings":"AAAA;EACE,uBAAA;ACCF;;ADGA;EACE,0BAAA;ACAF;;ADGA;EACE,cAAA;ACAF;;ADGA;EACE,kBAAA;EACA,eAAA;ACAF;ADEE;EACE,kBAAA;ACAJ;ADGE;EACE,YAAA;ACDJ;;ADKA;EACE,sBAAA;EACA,kBAAA;EACA,OAAA;EACA,MAAA;EACA,QAAA;EACA,aAAA;EACA,mDAAA;EACA,aAAA;EACA,YAAA;ACFF;ADIE;EACE,eAAA;ACFJ;ADKE;EACE,aAAA;EACA,gBAAA;ACHJ;ADME;EACE,YAAA;EACA,uBAAA;EACA,qBAAA;ACJJ;ADOE;EACE,eAAA;EACA,WAAA;ACLJ;;ADSA;EACE,iBAAA;EACA,aAAA;ACNF;;ADSA;EACE,iBAAA;ACNF;;ADSA;EACE,uBAAA;ACNF;;ADSA;EACE,eAAA;EACA,MAAA;EACA,QAAA;EACA,SAAA;EACA,OAAA;EACA,oCAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;ACNF;ADQE;EACE,uBAAA;EACA,aAAA;ACNJ;ADQI;EACE,aAAA;EACA,2BAAA;EACA,8BAAA;ACNN;ADSI;EACE,cAAA;ACPN;;AAEA,yCAAyC","sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, "body, input, button {\n  font-family: Montserrat;\n}\n\na {\n  text-decoration: underline;\n}\n\na:hover {\n  color: dimgray;\n}\n\ndiv.login {\n  text-align: center;\n  margin: 5% 500px;\n  padding: 30px 10px;\n  background-color: pink;\n}\ndiv.login h1 {\n  text-align: center;\n}\ndiv.login button, div.login input {\n  margin: 10px;\n}\n\n.header {\n  background-color: pink;\n  position: absolute;\n  left: 0;\n  top: 0;\n  right: 0;\n  display: grid;\n  grid-template-columns: auto 100px 100px 100px 100px;\n  padding: 10px;\n  height: 60px;\n}\n.header .title {\n  font-size: 30px;\n}\n.header .title, .header .nav {\n  display: flex;\n  align-items: end;\n}\n.header .nav {\n  float: right;\n  justify-content: center;\n  margin: 0 10px 0 10px;\n}\n.header .nav:hover, .header u:hover {\n  cursor: default;\n  color: grey;\n}\n\n.toDo, .budget, .itinerary {\n  margin-top: 100px;\n  padding: 10px;\n}\n\nbutton {\n  margin-left: 10px;\n}\n\ninput {\n  border-width: 0 0 2px 0;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n}\n.modal .modal-content {\n  background-color: white;\n  padding: 10px;\n}\n.modal .modal-content .modal-body {\n  padding: 10px;\n  border-top: 1px solid white;\n  border-bottom: 1px solid white;\n}\n.modal .modal-content .modal-button {\n  margin: 10px 0;\n}\n\n/*# sourceMappingURL=styleSheet.css.map */\n", "",{"version":3,"sources":["webpack://./client/src/styling/styleSheet.scss","webpack://./client/src/styling/styleSheet.css"],"names":[],"mappings":"AAAA;EACE,uBAAA;ACCF;;ADGA;EACE,0BAAA;ACAF;;ADGA;EACE,cAAA;ACAF;;ADGA;EACE,kBAAA;EACA,gBAAA;EACA,kBAAA;EACA,sBAAA;ACAF;ADEE;EACE,kBAAA;ACAJ;ADGE;EACE,YAAA;ACDJ;;ADKA;EACE,sBAAA;EACA,kBAAA;EACA,OAAA;EACA,MAAA;EACA,QAAA;EACA,aAAA;EACA,mDAAA;EACA,aAAA;EACA,YAAA;ACFF;ADIE;EACE,eAAA;ACFJ;ADKE;EACE,aAAA;EACA,gBAAA;ACHJ;ADME;EACE,YAAA;EACA,uBAAA;EACA,qBAAA;ACJJ;ADOE;EACE,eAAA;EACA,WAAA;ACLJ;;ADSA;EACE,iBAAA;EACA,aAAA;ACNF;;ADSA;EACE,iBAAA;ACNF;;ADSA;EACE,uBAAA;ACNF;;ADSA;EACE,eAAA;EACA,MAAA;EACA,QAAA;EACA,SAAA;EACA,OAAA;EACA,oCAAA;EACA,aAAA;EACA,mBAAA;EACA,uBAAA;ACNF;ADQE;EACE,uBAAA;EACA,aAAA;ACNJ;ADQI;EACE,aAAA;EACA,2BAAA;EACA,8BAAA;ACNN;ADSI;EACE,cAAA;ACPN;;AAEA,yCAAyC","sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -35013,14 +35043,11 @@ var App = function App() {
     _useState16 = _slicedToArray(_useState15, 2),
     costAdded = _useState16[0],
     setCostAdded = _useState16[1]; // in the DB
-  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(''),
+  // const [warning, setWarning] = useState('');
+  var _useState17 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
     _useState18 = _slicedToArray(_useState17, 2),
-    warning = _useState18[0],
-    setWarning = _useState18[1];
-  var _useState19 = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)({}),
-    _useState20 = _slicedToArray(_useState19, 2),
-    itinerary = _useState20[0],
-    setItinerary = _useState20[1]; // need to add to DB
+    itinerary = _useState18[0],
+    setItinerary = _useState18[1]; // need to add to DB
   // need another DB system for the vendors eventually (planner-side)
 
   console.log(itinerary);
@@ -35110,8 +35137,6 @@ var App = function App() {
         budget: budget,
         setBudget: setBudget,
         formatter: formatter,
-        warning: warning,
-        setWarning: setWarning,
         done: done,
         setDone: setDone,
         toDo: toDo,

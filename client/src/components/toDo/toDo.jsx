@@ -11,6 +11,7 @@ const ToDo = (props) => {
   const [inputDate, setInputDate] = useState('');
   const [inputBudget, setInputBudget] = useState('');
   const [countdown, setCountdown] = useState(0);
+  const [warning, setWarning] = useState('');
   // const [lookAhead, setLookAhead] = useState(false);
 
   useEffect(() => {
@@ -44,10 +45,10 @@ const ToDo = (props) => {
         temp.push(firstLine(e.target.parentElement.parentElement.innerText));
         props.setDone(temp);
       } else {
-        props.setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
+        setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
       }
     } else {
-      props.setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
+      setWarning('Invalid date: date must be in the future and in MM/DD/YYYY format.');
       setInputDate(0);
       document.querySelector('.inputDate').value = '';
     }
@@ -62,7 +63,7 @@ const ToDo = (props) => {
       props.setDone(temp);
       props.setBudget(inputBudget);
     } else {
-      props.setWarning('Invalid budget amount: amount must be over $0.');
+      setWarning('Invalid budget amount: amount must be over $0.');
       setInputBudget(0);
       document.querySelector('.inputBudget').value = '';
     }
@@ -123,7 +124,7 @@ const ToDo = (props) => {
 
   return (
     <div className="toDo">
-      {props.warning !== '' ? <Modal message={`${props.warning}`} setWarning={props.setWarning}/> : null}
+      {warning !== '' ? <Modal message={`${warning}`} setWarning={setWarning}/> : null}
       <div className="toDoHeader">
         <Form toDo={props.toDo} setToDo={props.setToDo} email={props.email}/>
         <div className="countdown">{countdown ? `${countdown.toLocaleString()} days to go!` : 'Let\'s get planning!'}</div>

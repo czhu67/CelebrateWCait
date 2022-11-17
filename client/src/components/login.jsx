@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import Modal from './modal.jsx';
 
 const Login = (props) => {
   const [email, setemail] = useState('');
   const [pwd, setpwd] = useState('');
+  const [warning, setWarning] = useState('');
 
   var logIn = () => {
     if (email && pwd) {
       axios.post('/login', {email, pwd}).then((data) => {
-        if (data.data !== 'Invalid e-mail/password') {
+        if (data.data.indexOf('does not exist') === -1 && data.data !== 'Incorrect password. Please try again.') {
           props.setEmail(email);
           props.setLogIn(true);
           props.setPage('toDo');
@@ -28,19 +30,22 @@ const Login = (props) => {
             props.setItinerary(data.data.itinerary);
           }
         } else {
-          console.log(data.data);
+          setWarning(data.data);
+          document.querySelector('.password').value = '';
         }
       })
     } else {
-      console.log('Invalid e-mail/password');
+      setWarning('Invalid email/password.');
+      document.querySelector('.password').value = '';
     }
   }
 
   return (
     <div className="login">
+      {warning !== '' ? <Modal message={`${warning}`} setWarning={setWarning}/> : null}
       <h1>Login</h1>
       <input onChange={(e) => setemail(e.target.value)} type="email" placeholder="Email"/><br/>
-      <input onChange={(e) => setpwd(e.target.value)} type="password" placeholder="Password"/><br/>
+      <input className="password" onChange={(e) => setpwd(e.target.value)} type="password" placeholder="Password"/><br/>
       <button onClick={logIn}>Log In</button>
       <p onClick={() => props.setPage('signUp')}>Just engaged? Congrats! <a>Create Account</a></p>
     </div>
