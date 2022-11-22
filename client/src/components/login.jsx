@@ -9,9 +9,10 @@ const Login = (props) => {
   const [warning, setWarning] = useState('');
 
   var logIn = () => {
-    if (email && pwd) {
+    var emailCheck = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+    if (emailCheck.test(email) && pwd) {
       axios.post('/login', {email, pwd}).then((data) => {
-        if (data.data.indexOf('does not exist') === -1 && data.data !== 'Incorrect password. Please try again.') {
+        if (!Array.isArray(data.data)) {
           props.setEmail(email);
           props.setLogIn(true);
           props.setPage('toDo');

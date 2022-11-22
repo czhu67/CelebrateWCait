@@ -2387,12 +2387,13 @@ var Login = function Login(props) {
     warning = _useState6[0],
     setWarning = _useState6[1];
   var logIn = function logIn() {
-    if (email && pwd) {
+    var emailCheck = new RegExp(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/, "gm");
+    if (emailCheck.test(email) && pwd) {
       axios__WEBPACK_IMPORTED_MODULE_2___default().post('/login', {
         email: email,
         pwd: pwd
       }).then(function (data) {
-        if (data.data.indexOf('does not exist') === -1 && data.data !== 'Incorrect password. Please try again.') {
+        if (!Array.isArray(data.data)) {
           props.setEmail(email);
           props.setLogIn(true);
           props.setPage('toDo');
